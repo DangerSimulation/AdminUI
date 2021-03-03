@@ -7,6 +7,7 @@ import {NbThemeModule, NbLayoutModule, NbInputModule, NbCardModule} from '@nebul
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { AppRoutingModule } from './app-routing.module';
 import {FormsModule} from '@angular/forms';
+import {NgxElectronModule} from 'ngx-electron';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {FormsModule} from '@angular/forms';
     AppRoutingModule,
     NbInputModule,
     NbCardModule,
-    FormsModule
+    FormsModule,
+    NgxElectronModule
   ],
   providers: [],
   bootstrap: [AppComponent]
