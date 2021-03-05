@@ -16,7 +16,7 @@ function createWindow() {
         height: size.height,
         webPreferences: {
             nodeIntegration: true,
-            allowRunningInsecureContent: (serve) ? true : false,
+            allowRunningInsecureContent: (serve),
             contextIsolation: false,
             enableRemoteModule: true // true if you want to run 2e2 test  with Spectron or use remote module in renderer context (ie. Angular)
         },
@@ -42,6 +42,9 @@ function createWindow() {
         // when you should delete the corresponding element.
         win = null;
     });
+    win.webContents.on('did-start-loading', function () {
+        win.webContents.send('reload-triggered');
+    });
     return win;
 }
 try {
@@ -49,7 +52,9 @@ try {
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
     // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
-    electron_1.app.on('ready', function () { return setTimeout(createWindow, 400); });
+    electron_1.app.on('ready', function () {
+        setTimeout(createWindow, 400);
+    });
     // Quit when all windows are closed.
     electron_1.app.on('window-all-closed', function () {
         // On OS X it is common for applications and their menu bar
