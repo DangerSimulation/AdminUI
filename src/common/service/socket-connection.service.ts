@@ -1,26 +1,36 @@
 import {Injectable} from '@angular/core';
 import {ElectronService} from 'ngx-electron';
-import {Server} from 'socket.io';
+import * as WebSocket from 'ws';
+import {Data, Server} from 'ws';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class SocketConnectionService {
 
+	private socketConnection: WebSocket[];
 	private socket: Server;
 	private socketPort = 11653;
 
 	constructor(private readonly electronService: ElectronService) {
-		const options = {
-			cors: {
-				origin: '*'
-			}
-		};
-		this.socket = this.electronService.remote.require('socket.io')(this.socketPort, options);
 
-		console.log(`Start websocket on port ${this.socketPort}`);
+		const wss = this.electronService.remote.require('ws');
 
-		this.setUpSocket();
+		this.socket = new wss.Server({port: this.socketPort}, () => {
+			console.log('server started');
+		});
+		this.socket.on('connection', (ws: WebSocket) => {
+			this.socketConnection.push(ws);
+			console.log(`New connection from ${ws.url}`);
+
+			ws.on('message', (message: Data) => {
+				console.log(message);
+			});
+
+		});
+		this.socket.on('listening', () => {
+			console.log('listening on ' + this.socketPort);
+		});
 
 		this.electronService.ipcRenderer.on('reload-triggered', () => {
 			this.closeSocket();
@@ -28,17 +38,12 @@ export class SocketConnectionService {
 	}
 
 	public sendMessage(message: string): void {
-		this.socket.to('webRTCConnection').emit('message', message);
+		this.socketConnection.forEach(ws => ws.send(message));
 	}
 
 	private closeSocket(): void {
 		this.socket.close();
+		this.socketConnection.forEach(ws => ws.close());
 	}
 
-	private setUpSocket(): void {
-		this.socket.on('connection', (socket => {
-			socket.join('webRTCConnection');
-			console.log('New connection');
-		}));
-	}
 }
