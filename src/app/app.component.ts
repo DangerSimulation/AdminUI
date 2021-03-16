@@ -1,28 +1,45 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {MessageService} from '../common/service/message.service';
 import {WebRTCConnectionService} from '../common/service/web-rtc-connection.service';
-import {BroadcastService} from '../common/service/broadcast.service';
-import {SocketConnectionService} from '../common/service/socket-connection.service';
-import {WebSocketMessage} from '../common/shared/types';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
     title = 'AdminUi';
     inputItemNgModel: any;
+    @ViewChild('video')
+    video: ElementRef<HTMLVideoElement>;
 
-    constructor(private readonly webRTCConnectionService: WebRTCConnectionService,
-                private readonly broadcastService: BroadcastService,
-                private readonly socketConnectionService: SocketConnectionService) {
+    private trackAddedSubscription: Subscription;
+
+    constructor(private readonly messageService: MessageService, private readonly webRTCConnectionService: WebRTCConnectionService) {
+        this.trackAddedSubscription = this.webRTCConnectionService.trackAddedSubject.subscribe(value => {
+            this.setVideoFeed(value);
+            console.log(value);
+        });
     }
 
     public log(): void {
-        const message: WebSocketMessage<string> = {
-            data: 'lol',
-            messageType: this.inputItemNgModel
-        };
-        this.socketConnectionService.sendMessage(message);
+        this.messageService.sendMessage('lol', this.inputItemNgModel);
     }
+
+    public setVideoFeed(track: RTCTrackEvent): void {
+        const stream = track.streams[0];
+        stream.addTrack(track.transceiver.receiver.track);
+        this.video.nativeElement.autoplay = true;
+        this.video.nativeElement.srcObject = stream;
+        this.video.nativeElement.play().then(value => console.log('start')).catch(reason => console.log('error'));
+
+    }
+
+
+    ngOnDestroy(): void {
+        this.trackAddedSubscription.unsubscribe();
+    }
+
+
 }

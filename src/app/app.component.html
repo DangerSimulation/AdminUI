@@ -1,20 +1,19 @@
 <nb-layout>
 
-  <nb-layout-header fixed>
-  Admin UI DangerSim
-  </nb-layout-header>
+    <nb-layout-header fixed>
+        Admin UI DangerSim
+    </nb-layout-header>
 
-  <nb-layout-column class="leftColumn">
-    <nb-card>
-      <nb-card-body class="example-items-col">
-        <input (input)="log()" type="text" nbInput placeholder="Input" [(ngModel)]="inputItemNgModel">
-      </nb-card-body>
-    </nb-card>
-  </nb-layout-column>
-  <nb-layout-column>
-    lol
-  </nb-layout-column>
-
+    <nb-layout-column class="leftColumn">
+        <nb-card>
+            <nb-card-body class="example-items-col">
+                <input (input)="log()" [(ngModel)]="inputItemNgModel" nbInput placeholder="Input" type="text">
+            </nb-card-body>
+        </nb-card>
+    </nb-layout-column>
+    <nb-layout-column>
+        <video #video autoplay="autoplay"></video>
+    </nb-layout-column>
 
 
 </nb-layout>

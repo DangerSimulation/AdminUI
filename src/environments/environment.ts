@@ -3,8 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  broadcastPort: 12548
+    production: false,
+    broadcastPort: 12548,
+    communicationType: 'WebRTC'
 };
 
 /*

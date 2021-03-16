@@ -4,7 +4,7 @@ import * as WebSocket from 'ws';
 import {Server} from 'ws';
 import {WebRTCConnectionService} from './web-rtc-connection.service';
 import {sdpTypeConverter} from '../shared/utils';
-import {WebSocketMessage} from '../shared/types';
+import {PeerMessage} from '../shared/types';
 import {IncomingMessage} from 'http';
 import {Subscription} from 'rxjs';
 import {BroadcastService} from './broadcast.service';
@@ -19,6 +19,7 @@ export class SocketConnectionService implements OnDestroy {
     private socketPort = 11653;
     private setRemoteDescriptionSubscription: Subscription;
     private iceCandidateSubscription: Subscription;
+    private answerSubscription: Subscription;
 
     constructor(private readonly electronService: ElectronService, private readonly webRTCConnectionService: WebRTCConnectionService,
                 private readonly broadcastService: BroadcastService) {
@@ -46,11 +47,15 @@ export class SocketConnectionService implements OnDestroy {
                     console.error(`Message structure of message is invalid. Message: ${messageString}`);
                     return;
                 }
-
+                console.log(`Receive message with type ${potentialType[1]}`);
                 switch (potentialType[1]) {
                     case 'offer':
-                        const message: WebSocketMessage<RTCSessionDescriptionInit> = JSON.parse(messageString, sdpTypeConverter);
-                        this.webRTCConnectionService.setRemoteDescription(message.data);
+                        const offerMessage: PeerMessage<RTCSessionDescriptionInit> = JSON.parse(messageString, sdpTypeConverter);
+                        this.webRTCConnectionService.setRemoteDescription(offerMessage.data);
+                        break;
+                    case 'iceCandidate':
+                        const iceCandidateMessage: PeerMessage<RTCIceCandidate> = JSON.parse(messageString);
+                        this.webRTCConnectionService.addIceCandidate(iceCandidateMessage.data);
                         break;
                     default:
                         console.log(`Invalid message type: ${potentialType[1]}`);
@@ -61,6 +66,7 @@ export class SocketConnectionService implements OnDestroy {
                 console.log(`Websocket connection closed. Reason ${reason}. Code ${code}`);
                 this.socketConnection = undefined;
                 this.broadcastService.startSocket();
+                this.webRTCConnectionService.reactToConnectionLoss();
             });
 
         });
@@ -73,21 +79,33 @@ export class SocketConnectionService implements OnDestroy {
             const message = {
                 messageType: 'offerResponse',
                 data: value
-            } as WebSocketMessage<boolean>;
+            } as PeerMessage<boolean>;
             this.sendMessage(message);
         });
 
         this.iceCandidateSubscription = this.webRTCConnectionService.iceCandidateSubject.subscribe(value => {
+            if (value === null) {
+                return;
+            }
+            const message = {
+                messageType: 'iceCandidate',
+                data: value
+            } as PeerMessage<RTCIceCandidate>;
+            this.sendMessage(message);
+        });
+
+        this.answerSubscription = this.webRTCConnectionService.answerSubject.subscribe(value => {
             const message = {
                 messageType: 'answer',
                 data: value
-            } as WebSocketMessage<RTCSessionDescription>;
+            } as PeerMessage<RTCSessionDescription>;
             this.sendMessage(message);
         });
     }
 
-    public sendMessage(message: WebSocketMessage<unknown>): void {
+    public sendMessage(message: PeerMessage<unknown>): void {
         if (this.socketConnection) {
+            console.log(`Send message with type ${message.messageType}`);
             this.socketConnection.send(JSON.stringify(message));
         }
     }
