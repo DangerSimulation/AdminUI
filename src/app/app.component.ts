@@ -28,12 +28,8 @@ export class AppComponent implements OnDestroy {
     }
 
     public setVideoFeed(track: RTCTrackEvent): void {
-        const stream = track.streams[0];
-        stream.addTrack(track.transceiver.receiver.track);
         this.video.nativeElement.autoplay = true;
-        this.video.nativeElement.srcObject = stream;
-        this.video.nativeElement.play().then(value => console.log('start')).catch(reason => console.log('error'));
-
+        this.video.nativeElement.srcObject = track.streams[0];
     }
 
 

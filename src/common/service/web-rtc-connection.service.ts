@@ -108,5 +108,29 @@ export class WebRTCConnectionService {
             console.log('New track was added');
             this.trackAddedSubject.next(event);
         };
+
+        window.setInterval(() => {
+            /*this.peerConnection.getStats(null).then(stats => {
+                let statsOutput = '';
+
+                stats.forEach(report => {
+                    statsOutput += `Report: ${report.type}\nID: ${report.id}\n` +
+                        `Timestamp: ${report.timestamp}\n`;
+
+                    // Now the statistics for this report; we intentially drop the ones we
+                    // sorted to the top above
+
+                    Object.keys(report).forEach(statName => {
+                        if (statName !== 'id' && statName !== 'timestamp' && statName !== 'type') {
+                            statsOutput += `${statName}:${report[statName]}\n`;
+                        }
+                    });
+                });
+
+                console.log(statsOutput);
+            });*/
+        }, 1000);
+
+
     }
 }
