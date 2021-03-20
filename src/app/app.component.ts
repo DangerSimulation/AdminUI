@@ -28,14 +28,12 @@ export class AppComponent implements OnDestroy {
     }
 
     public setVideoFeed(track: RTCTrackEvent): void {
-        this.video.nativeElement.autoplay = true;
-        this.video.nativeElement.srcObject = track.streams[0];
+        track.track.onunmute = () => {
+            this.video.nativeElement.srcObject = track.streams[0];
+        };
     }
-
 
     ngOnDestroy(): void {
         this.trackAddedSubscription.unsubscribe();
     }
-
-
 }

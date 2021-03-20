@@ -20,6 +20,7 @@ export class SocketConnectionService implements OnDestroy {
     private setRemoteDescriptionSubscription: Subscription;
     private iceCandidateSubscription: Subscription;
     private answerSubscription: Subscription;
+    private offerSubscription: Subscription;
 
     constructor(private readonly electronService: ElectronService, private readonly webRTCConnectionService: WebRTCConnectionService,
                 private readonly broadcastService: BroadcastService) {
@@ -57,6 +58,14 @@ export class SocketConnectionService implements OnDestroy {
                         const iceCandidateMessage: PeerMessage<RTCIceCandidate> = JSON.parse(messageString);
                         this.webRTCConnectionService.addIceCandidate(iceCandidateMessage.data);
                         break;
+                    case 'ready':
+                        console.log('Start handshake');
+                        this.webRTCConnectionService.createOffer();
+                        break;
+                    case 'answer':
+                        const answerMessage: PeerMessage<RTCSessionDescriptionInit> = JSON.parse(messageString, sdpTypeConverter);
+                        this.webRTCConnectionService.setAnswer(answerMessage.data);
+                        break;
                     default:
                         console.log(`Invalid message type: ${potentialType[1]}`);
                 }
@@ -84,9 +93,6 @@ export class SocketConnectionService implements OnDestroy {
         });
 
         this.iceCandidateSubscription = this.webRTCConnectionService.iceCandidateSubject.subscribe(value => {
-            if (value === null) {
-                return;
-            }
             const message = {
                 messageType: 'iceCandidate',
                 data: value
@@ -97,6 +103,14 @@ export class SocketConnectionService implements OnDestroy {
         this.answerSubscription = this.webRTCConnectionService.answerSubject.subscribe(value => {
             const message = {
                 messageType: 'answer',
+                data: value
+            } as PeerMessage<RTCSessionDescription>;
+            this.sendMessage(message);
+        });
+
+        this.offerSubscription = this.webRTCConnectionService.offerSubject.subscribe(value => {
+            const message = {
+                messageType: 'offer',
                 data: value
             } as PeerMessage<RTCSessionDescription>;
             this.sendMessage(message);

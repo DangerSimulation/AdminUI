@@ -10,6 +10,7 @@ export class WebRTCConnectionService {
     public setRemoteDescriptionSubject: Subject<boolean>;
     public trackAddedSubject: Subject<RTCTrackEvent>;
     public answerSubject: Subject<RTCSessionDescription>;
+    public offerSubject: Subject<RTCSessionDescription>;
     public iceCandidateSubject: Subject<RTCIceCandidate>;
     private peerConnection: RTCPeerConnection;
     private dataChannel: RTCDataChannel | undefined;
@@ -18,6 +19,7 @@ export class WebRTCConnectionService {
 
     constructor() {
         this.answerSubject = new Subject<RTCSessionDescription>();
+        this.offerSubject = new Subject<RTCSessionDescription>();
         this.iceCandidateSubject = new Subject<RTCIceCandidate>();
         this.setRemoteDescriptionSubject = new Subject<boolean>();
         this.trackAddedSubject = new Subject<RTCTrackEvent>();
@@ -29,18 +31,12 @@ export class WebRTCConnectionService {
         const init = {
             candidate: candidate['Candidate'],
             sdpMLineIndex: candidate['SdpMLineIndex'],
-            sdpMid: candidate['SdpMid'],
-            usernameFragment: candidate['UserNameFragment']
+            sdpMid: candidate['SdpMid']
         } as RTCIceCandidateInit;
 
-        if (this.peerConnection.remoteDescription) {
-            while (this.iceCandidateQueue.length > 0) {
-                this.peerConnection.addIceCandidate(this.iceCandidateQueue.pop()).then(value => console.log('Set ice candidate')).catch(reason => console.log(`Add ice candidate failed with ${reason}`));
-            }
-            this.peerConnection.addIceCandidate(init).then(value => console.log('Set ice candidate')).catch(reason => console.log(`Add ice candidate failed with ${reason}`));
-        } else {
-            this.iceCandidateQueue.push(init);
-        }
+        //this.peerConnection.addIceCandidate(new RTCIceCandidate(init)).then(value => console.log('Set ice candidate')).catch(reason => console.log(`Add ice candidate failed with ${reason}`));
+        this.iceCandidateQueue.unshift(init);
+        this.setIceCandidates();
     }
 
     public reactToConnectionLoss(): void {
@@ -84,6 +80,34 @@ export class WebRTCConnectionService {
         this.dataChannel.send(message);
     }
 
+    public createOffer(): void {
+        this.peerConnection.addTransceiver('video', {direction: 'recvonly'});
+
+        this.peerConnection.createOffer({
+            offerToReceiveVideo: true,
+            offerToReceiveAudio: false
+        }).then((offer: RTCSessionDescriptionInit) => {
+            this.peerConnection.setLocalDescription(offer).then(value => {
+                this.offerSubject.next(this.peerConnection.localDescription);
+            });
+        }).then(event => console.log('Created offer'));
+    }
+
+    public setAnswer(answer: RTCSessionDescriptionInit): void {
+        this.peerConnection.setRemoteDescription(answer).then(event => {
+            console.log('answer set successfully');
+            this.setIceCandidates();
+        });
+    }
+
+    private setIceCandidates(): void {
+        if (this.peerConnection.remoteDescription) {
+            while (this.iceCandidateQueue.length > 0) {
+                this.peerConnection.addIceCandidate(this.iceCandidateQueue.pop()).then(value => console.log('Set ice candidate')).catch(reason => console.log(`Add ice candidate failed with ${reason}`));
+            }
+        }
+    }
+
     private setUpPeerConnection(): void {
         this.peerConnection = new RTCPeerConnection();
         this.peerConnection.onconnectionstatechange = ev => {
@@ -91,14 +115,19 @@ export class WebRTCConnectionService {
         };
         this.peerConnection.onnegotiationneeded = event => {
             console.log('Negotiate');
+            //this.createOffer();
         };
         this.peerConnection.onicecandidate = candidateEvent => {
             if (this.peerConnection.localDescription) {
-                this.answerSubject.next(this.peerConnection.localDescription);
+                //this.answerSubject.next(this.peerConnection.localDescription);
             }
             this.iceCandidateSubject.next(candidateEvent.candidate);
             console.log(`New ice candidate`);
         };
+        this.dataChannel = this.peerConnection.createDataChannel('dataChannel');
+        this.dataChannel.onmessage = message => console.log(message);
+        this.dataChannel.onopen = e => console.log('new connection');
+
         this.peerConnection.ondatachannel = event => {
             this.dataChannel = event.channel;
             this.dataChannel.onmessage = message => console.log(message);
