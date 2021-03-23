@@ -1,140 +1,101 @@
 import {Injectable} from '@angular/core';
-import {interval, Observable, Subject} from 'rxjs';
-import {skipUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {Side, SignalingMessage} from '../shared/types';
 
 @Injectable({
     providedIn: 'root'
 })
 export class WebRTCConnectionService {
 
-    public setRemoteDescriptionSubject: Subject<boolean>;
+    public signalingMessage: Subject<SignalingMessage>;
     public trackAddedSubject: Subject<RTCTrackEvent>;
-    public answerSubject: Subject<RTCSessionDescription>;
-    public offerSubject: Subject<RTCSessionDescription>;
-    public iceCandidateSubject: Subject<RTCIceCandidate>;
-    private peerConnection: RTCPeerConnection;
+    private localConnection: RTCPeerConnection;
     private dataChannel: RTCDataChannel | undefined;
-    private hasConnection = false;
-    private iceCandidateQueue: RTCIceCandidateInit[] = [];
 
     constructor() {
-        this.answerSubject = new Subject<RTCSessionDescription>();
-        this.offerSubject = new Subject<RTCSessionDescription>();
-        this.iceCandidateSubject = new Subject<RTCIceCandidate>();
-        this.setRemoteDescriptionSubject = new Subject<boolean>();
+        this.signalingMessage = new Subject<SignalingMessage>();
         this.trackAddedSubject = new Subject<RTCTrackEvent>();
-
-        this.setUpPeerConnection();
     }
 
-    public addIceCandidate(candidate: RTCIceCandidate): void {
-        const init = {
-            candidate: candidate['Candidate'],
-            sdpMLineIndex: candidate['SdpMLineIndex'],
-            sdpMid: candidate['SdpMid']
-        } as RTCIceCandidateInit;
+    public async createPeerConnection(): Promise<void> {
+        this.localConnection = new RTCPeerConnection({iceServers: [{urls: 'stun:stun.l.google.com:19302'}]});
 
-        this.iceCandidateQueue.unshift(init);
-        this.setIceCandidates();
+        this.localConnection.onicecandidate = (iceEvent: RTCPeerConnectionIceEvent) => {
+            console.log('New ice candidate');
+            if (iceEvent.candidate) {
+                this.signalingMessage.next({
+                    candidate: iceEvent.candidate.candidate,
+                    sdp: undefined,
+                    sdpMLineIndex: iceEvent.candidate.sdpMLineIndex,
+                    sdpMid: iceEvent.candidate.sdpMid,
+                    type: 'candidate'
+                });
+            }
+        };
+
+        this.localConnection.ontrack = evt => {
+            console.log('onTrack');
+            this.trackAddedSubject.next(evt);
+        };
+
+        this.localConnection.onconnectionstatechange = evt => {
+            console.log(this.localConnection.connectionState);
+        };
+
+        await this.createDescription('offer');
     }
 
-    public reactToConnectionLoss(): void {
-        this.peerConnection.close();
-        this.dataChannel.close();
+    public async createDescription(type: RTCSdpType): Promise<void> {
+        console.log(`Create ${type}`);
+        let description: RTCSessionDescriptionInit;
 
-        this.setUpPeerConnection();
+        switch (type) {
+
+            case 'offer':
+                description = await this.localConnection.createOffer({offerToReceiveVideo: true});
+                break;
+            case 'answer':
+                description = await this.localConnection.createAnswer();
+                break;
+        }
+        await this.localConnection.setLocalDescription(description);
+
+        this.signalingMessage.next({
+            candidate: '', sdp: description.sdp, sdpMLineIndex: 0, sdpMid: '', type: description.type
+        });
     }
 
-    public setRemoteDescription(sdp: RTCSessionDescriptionInit): void {
-        if (this.hasConnection) {
-            return;
+    public async addIceCandidate(candidate: RTCIceCandidateInit): Promise<void> {
+        return this.localConnection.addIceCandidate(candidate);
+    }
+
+    public async setDescription(side: Side, message: SignalingMessage): Promise<void> {
+        console.log(`Set ${side} ${message.type}`);
+
+        switch (side) {
+
+            case Side.Local:
+                await this.localConnection.setLocalDescription({
+                        type: message.type,
+                        sdp: message.sdp
+                    } as RTCSessionDescriptionInit
+                );
+                break;
+            case Side.Remote:
+                await this.localConnection.setRemoteDescription({
+                    type: message.type,
+                    sdp: message.sdp
+                } as RTCSessionDescriptionInit);
+                break;
         }
 
-        this.peerConnection.setRemoteDescription(sdp).then(a => {
-            this.setRemoteDescriptionSubject.next(true);
-            console.log('Offer set');
-            this.peerConnection.createAnswer().then((answer: RTCSessionDescriptionInit) => {
-                this.peerConnection.setLocalDescription(answer);
-            }).then(a => {
-                console.log('Answer created');
-
-                const answerPoller = interval(2000).pipe(skipUntil(new Observable<any>(subscriber => {
-                    if (this.peerConnection.localDescription) {
-                        subscriber.next(null);
-                        subscriber.complete();
-                    }
-                }))).subscribe(value => {
-                    this.answerSubject.next(this.peerConnection.localDescription);
-                    answerPoller.unsubscribe();
-                });
-            });
-        }).catch(e => {
-            console.log(`Error setting remote description ${e}`);
-            this.setRemoteDescriptionSubject.next(false);
-        });
-
+        if (message.type === 'offer') {
+            await this.createDescription('answer');
+        }
     }
 
     public sendMessage(message: string) {
         this.dataChannel.send(message);
     }
-
-    public createOffer(): void {
-
-        this.peerConnection.createOffer({
-            offerToReceiveVideo: true,
-            offerToReceiveAudio: false
-        }).then((offer: RTCSessionDescriptionInit) => {
-            this.peerConnection.setLocalDescription(offer).then(value => {
-                this.offerSubject.next(this.peerConnection.localDescription);
-            });
-        }).then(event => console.log('Created offer'));
-    }
-
-    public setAnswer(answer: RTCSessionDescriptionInit): void {
-        this.peerConnection.setRemoteDescription(answer).then(event => {
-            console.log('answer set successfully');
-            this.setIceCandidates();
-        });
-    }
-
-    private setIceCandidates(): void {
-        if (this.peerConnection.remoteDescription) {
-            while (this.iceCandidateQueue.length > 0) {
-                this.peerConnection.addIceCandidate(this.iceCandidateQueue.pop()).then(value => console.log('Set ice candidate')).catch(reason => console.log(`Add ice candidate failed with ${reason}`));
-            }
-        }
-    }
-
-    private setUpPeerConnection(): void {
-        this.peerConnection = new RTCPeerConnection();
-        this.peerConnection.addTransceiver('video', {direction: 'recvonly'});
-
-        this.peerConnection.onconnectionstatechange = ev => {
-            console.log(this.peerConnection.connectionState);
-        };
-        this.peerConnection.onnegotiationneeded = event => {
-            console.log('Negotiate');
-        };
-        this.peerConnection.onicecandidate = candidateEvent => {
-            if (candidateEvent.candidate) {
-                this.iceCandidateSubject.next(candidateEvent.candidate);
-                console.log(`New ice candidate`);
-            }
-        };
-        this.dataChannel = this.peerConnection.createDataChannel('dataChannel');
-        this.dataChannel.onmessage = message => console.log(message);
-        this.dataChannel.onopen = e => console.log('new connection');
-
-        this.peerConnection.ondatachannel = event => {
-            this.dataChannel = event.channel;
-            this.dataChannel.onmessage = message => console.log(message);
-            this.dataChannel.onopen = e => console.log('new connection');
-        };
-        this.peerConnection.ontrack = (event: RTCTrackEvent) => {
-            console.log('New track was added');
-            this.trackAddedSubject.next(event);
-        };
-
-    }
 }
+

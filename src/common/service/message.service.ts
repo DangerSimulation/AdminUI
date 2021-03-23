@@ -23,7 +23,7 @@ export class MessageService {
                 this.webRTCConnectionService.sendMessage(JSON.stringify(message));
                 break;
             case 'Socket':
-                this.socketConnectionService.sendMessage(message);
+                //this.socketConnectionService.sendMessage(message);
                 break;
             default:
                 console.log(`Unknown communication type ${environment.communicationType}`);
