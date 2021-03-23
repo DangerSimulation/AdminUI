@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
-import {interval, Observable, Subject} from 'rxjs';
-import {skipUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -12,10 +11,12 @@ export class WebRTCConnectionService {
     public answerSubject: Subject<RTCSessionDescription>;
     public offerSubject: Subject<RTCSessionDescription>;
     public iceCandidateSubject: Subject<RTCIceCandidate>;
-    private peerConnection: RTCPeerConnection;
+    public peerConnection: RTCPeerConnection;
     private dataChannel: RTCDataChannel | undefined;
-    private hasConnection = false;
-    private iceCandidateQueue: RTCIceCandidateInit[] = [];
+
+    private makingOffer = false;
+    private ignoreOffer = false;
+    private polite = false;
 
     constructor() {
         this.answerSubject = new Subject<RTCSessionDescription>();
@@ -24,142 +25,78 @@ export class WebRTCConnectionService {
         this.setRemoteDescriptionSubject = new Subject<boolean>();
         this.trackAddedSubject = new Subject<RTCTrackEvent>();
 
-        this.setUpPeerConnection();
-    }
+        const config = {
+            iceServers: [
+                {
+                    urls: 'stun.l.google.com:19302'
+                }
+            ]
+        };
 
-    public addIceCandidate(candidate: RTCIceCandidate): void {
-        const init = {
-            candidate: candidate['Candidate'],
-            sdpMLineIndex: candidate['SdpMLineIndex'],
-            sdpMid: candidate['SdpMid']
-        } as RTCIceCandidateInit;
-
-        //this.peerConnection.addIceCandidate(new RTCIceCandidate(init)).then(value => console.log('Set ice candidate')).catch(reason => console.log(`Add ice candidate failed with ${reason}`));
-        this.iceCandidateQueue.unshift(init);
-        this.setIceCandidates();
-    }
-
-    public reactToConnectionLoss(): void {
-        this.peerConnection.close();
-        this.dataChannel.close();
-
-        this.setUpPeerConnection();
-    }
-
-    public setRemoteDescription(sdp: RTCSessionDescriptionInit): void {
-        if (this.hasConnection) {
-            return;
-        }
-
-        this.peerConnection.setRemoteDescription(sdp).then(a => {
-            this.setRemoteDescriptionSubject.next(true);
-            console.log('Offer set');
-            this.peerConnection.createAnswer().then((answer: RTCSessionDescriptionInit) => {
-                this.peerConnection.setLocalDescription(answer);
-            }).then(a => {
-                console.log('Answer created');
-
-                const answerPoller = interval(2000).pipe(skipUntil(new Observable<any>(subscriber => {
-                    if (this.peerConnection.localDescription) {
-                        subscriber.next(null);
-                        subscriber.complete();
-                    }
-                }))).subscribe(value => {
-                    this.answerSubject.next(this.peerConnection.localDescription);
-                    answerPoller.unsubscribe();
-                });
-            });
-        }).catch(e => {
-            console.log(`Error setting remote description ${e}`);
-            this.setRemoteDescriptionSubject.next(false);
-        });
-
-    }
-
-    public sendMessage(message: string) {
-        this.dataChannel.send(message);
-    }
-
-    public createOffer(): void {
-        this.peerConnection.addTransceiver('video', {direction: 'recvonly'});
-
-        this.peerConnection.createOffer({
-            offerToReceiveVideo: true,
-            offerToReceiveAudio: false
-        }).then((offer: RTCSessionDescriptionInit) => {
-            this.peerConnection.setLocalDescription(offer).then(value => {
-                this.offerSubject.next(this.peerConnection.localDescription);
-            });
-        }).then(event => console.log('Created offer'));
-    }
-
-    public setAnswer(answer: RTCSessionDescriptionInit): void {
-        this.peerConnection.setRemoteDescription(answer).then(event => {
-            console.log('answer set successfully');
-            this.setIceCandidates();
-        });
-    }
-
-    private setIceCandidates(): void {
-        if (this.peerConnection.remoteDescription) {
-            while (this.iceCandidateQueue.length > 0) {
-                this.peerConnection.addIceCandidate(this.iceCandidateQueue.pop()).then(value => console.log('Set ice candidate')).catch(reason => console.log(`Add ice candidate failed with ${reason}`));
-            }
-        }
-    }
-
-    private setUpPeerConnection(): void {
         this.peerConnection = new RTCPeerConnection();
-        this.peerConnection.onconnectionstatechange = ev => {
-            console.log(this.peerConnection.connectionState);
-        };
-        this.peerConnection.onnegotiationneeded = event => {
-            console.log('Negotiate');
-            //this.createOffer();
-        };
-        this.peerConnection.onicecandidate = candidateEvent => {
-            if (this.peerConnection.localDescription) {
-                //this.answerSubject.next(this.peerConnection.localDescription);
-            }
-            this.iceCandidateSubject.next(candidateEvent.candidate);
-            console.log(`New ice candidate`);
-        };
-        this.dataChannel = this.peerConnection.createDataChannel('dataChannel');
-        this.dataChannel.onmessage = message => console.log(message);
-        this.dataChannel.onopen = e => console.log('new connection');
 
-        this.peerConnection.ondatachannel = event => {
-            this.dataChannel = event.channel;
-            this.dataChannel.onmessage = message => console.log(message);
-            this.dataChannel.onopen = e => console.log('new connection');
-        };
+        //this.peerConnection.addTransceiver('video', {direction: 'recvonly'});
+
+        this.peerConnection.oniceconnectionstatechange = ev => console.log(`Ice connection state is ${this.peerConnection.iceConnectionState}`);
+
         this.peerConnection.ontrack = (event: RTCTrackEvent) => {
             console.log('New track was added');
+            //this.peerConnection.addTransceiver(event.track);
+
             this.trackAddedSubject.next(event);
         };
 
-        window.setInterval(() => {
-            /*this.peerConnection.getStats(null).then(stats => {
-                let statsOutput = '';
+        this.peerConnection.onnegotiationneeded = async () => {
+            console.log('Negotiation needed');
+            try {
+                this.makingOffer = true;
+                // @ts-ignore setLocalDescription works without arguments, but the type definitions are not up to date. Should be included with Typescript > 4.2.3
+                await this.peerConnection.setLocalDescription().then(value => console.log('Created offer'));
+                this.offerSubject.next(this.peerConnection.localDescription);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                this.makingOffer = false;
+            }
+        };
 
-                stats.forEach(report => {
-                    statsOutput += `Report: ${report.type}\nID: ${report.id}\n` +
-                        `Timestamp: ${report.timestamp}\n`;
+        this.peerConnection.onicecandidate = (candidate: RTCPeerConnectionIceEvent) => {
+            this.iceCandidateSubject.next(candidate.candidate);
+        };
+    }
 
-                    // Now the statistics for this report; we intentially drop the ones we
-                    // sorted to the top above
+    public async onSignalingMessage(description: RTCSessionDescription, candidate: RTCIceCandidate): Promise<void> {
+        try {
+            if (description.sdp) {
+                const offerCollision = (description.type === 'offer') && (this.makingOffer || this.peerConnection.signalingState !== 'stable');
+                console.log(`We have ${offerCollision ? 'a' : 'no'} collision`);
 
-                    Object.keys(report).forEach(statName => {
-                        if (statName !== 'id' && statName !== 'timestamp' && statName !== 'type') {
-                            statsOutput += `${statName}:${report[statName]}\n`;
-                        }
-                    });
-                });
-
-                console.log(statsOutput);
-            });*/
-        }, 1000);
-
-
+                this.ignoreOffer = !this.polite && offerCollision;
+                console.log(`We ${offerCollision ? 'will' : 'won\'t'} ignore the offer`);
+                if (this.ignoreOffer) {
+                    return;
+                }
+                await this.peerConnection.setRemoteDescription(description);
+                console.log('Set remote description');
+                if (description.type === 'offer') {
+                    // @ts-ignore
+                    await this.peerConnection.setLocalDescription().then(value => console.log('Created answer'));
+                    this.answerSubject.next(this.peerConnection.localDescription);
+                }
+            } else if (candidate) {
+                try {
+                    console.log('Set candidate');
+                    await this.peerConnection.addIceCandidate(candidate);
+                } catch (e) {
+                    if (!this.ignoreOffer) {
+                        throw e;
+                    } else {
+                        console.warn(`Ignore error ${e}`);
+                    }
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 }

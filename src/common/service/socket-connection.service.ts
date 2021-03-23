@@ -17,7 +17,6 @@ export class SocketConnectionService implements OnDestroy {
     private socketConnection: WebSocket | undefined;
     private socket: Server;
     private socketPort = 11653;
-    private setRemoteDescriptionSubscription: Subscription;
     private iceCandidateSubscription: Subscription;
     private answerSubscription: Subscription;
     private offerSubscription: Subscription;
@@ -43,40 +42,19 @@ export class SocketConnectionService implements OnDestroy {
             this.broadcastService.closeSocket();
             this.socketConnection = ws;
             ws.on('message', (messageString: string) => {
-                const potentialType = messageString.match(/"messageType":"([a-zA-Z]+)"/);
-                if (potentialType.length !== 2) {
-                    console.error(`Message structure of message is invalid. Message: ${messageString}`);
-                    return;
-                }
-                console.log(`Receive message with type ${potentialType[1]}`);
-                switch (potentialType[1]) {
-                    case 'offer':
-                        const offerMessage: PeerMessage<RTCSessionDescriptionInit> = JSON.parse(messageString, sdpTypeConverter);
-                        this.webRTCConnectionService.setRemoteDescription(offerMessage.data);
-                        break;
-                    case 'iceCandidate':
-                        const iceCandidateMessage: PeerMessage<RTCIceCandidate> = JSON.parse(messageString);
-                        this.webRTCConnectionService.addIceCandidate(iceCandidateMessage.data);
-                        break;
-                    case 'ready':
-                        console.log('Start handshake');
-                        this.webRTCConnectionService.createOffer();
-                        break;
-                    case 'answer':
-                        const answerMessage: PeerMessage<RTCSessionDescriptionInit> = JSON.parse(messageString, sdpTypeConverter);
-                        this.webRTCConnectionService.setAnswer(answerMessage.data);
-                        break;
-                    default:
-                        console.log(`Invalid message type: ${potentialType[1]}`);
-                }
+                const message: PeerMessage = JSON.parse(messageString, sdpTypeConverter);
+                console.log(`Receive message: description is ${message.description.sdp === null ? 'null' : message.description.type}. candidate is ${message.candidate === null ? 'null' : JSON.stringify(message.candidate)}`);
+
+                this.webRTCConnectionService.onSignalingMessage(message.description, message.candidate);
             });
 
             ws.on('close', (ws: WebSocket, code: number, reason: string) => {
                 console.log(`Websocket connection closed. Reason ${reason}. Code ${code}`);
                 this.socketConnection = undefined;
                 this.broadcastService.startSocket();
-                this.webRTCConnectionService.reactToConnectionLoss();
             });
+
+            window.onbeforeunload = () => this.ngOnDestroy();
 
         });
 
@@ -84,42 +62,29 @@ export class SocketConnectionService implements OnDestroy {
             this.closeSocket();
         });
 
-        this.setRemoteDescriptionSubscription = this.webRTCConnectionService.setRemoteDescriptionSubject.subscribe(value => {
-            const message = {
-                messageType: 'offerResponse',
-                data: value
-            } as PeerMessage<boolean>;
-            this.sendMessage(message);
-        });
-
         this.iceCandidateSubscription = this.webRTCConnectionService.iceCandidateSubject.subscribe(value => {
-            const message = {
-                messageType: 'iceCandidate',
-                data: value
-            } as PeerMessage<RTCIceCandidate>;
-            this.sendMessage(message);
+            if (value !== null) {
+                this.sendMessage(undefined, value);
+            }
         });
 
         this.answerSubscription = this.webRTCConnectionService.answerSubject.subscribe(value => {
-            const message = {
-                messageType: 'answer',
-                data: value
-            } as PeerMessage<RTCSessionDescription>;
-            this.sendMessage(message);
+            this.sendMessage(value, undefined);
         });
 
         this.offerSubscription = this.webRTCConnectionService.offerSubject.subscribe(value => {
-            const message = {
-                messageType: 'offer',
-                data: value
-            } as PeerMessage<RTCSessionDescription>;
-            this.sendMessage(message);
+            this.sendMessage(value, undefined);
         });
     }
 
-    public sendMessage(message: PeerMessage<unknown>): void {
+    public sendMessage(description: RTCSessionDescription | undefined, candidate: RTCIceCandidate | undefined): void {
         if (this.socketConnection) {
-            console.log(`Send message with type ${message.messageType}`);
+            const message: PeerMessage = {
+                candidate: candidate,
+                description: description
+            };
+
+            console.log(`Send message: description is ${message.description === undefined ? 'null' : message.description.type}. candidate is ${message.candidate === undefined ? 'null' : message.candidate.type}`);
             this.socketConnection.send(JSON.stringify(message));
         }
     }
@@ -130,9 +95,6 @@ export class SocketConnectionService implements OnDestroy {
 
     private closeSocket(): void {
         this.socket.close();
-        if (!this.setRemoteDescriptionSubscription.closed) {
-            this.setRemoteDescriptionSubscription.unsubscribe();
-        }
     }
 
 

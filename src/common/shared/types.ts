@@ -1,5 +1,5 @@
-export interface PeerMessage<T> {
-    messageType: string,
-    data: T
+export interface PeerMessage {
+    description: RTCSessionDescription | undefined,
+    candidate: RTCIceCandidate | undefined
 }
 

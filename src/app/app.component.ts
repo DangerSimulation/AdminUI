@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
 import {MessageService} from '../common/service/message.service';
 import {WebRTCConnectionService} from '../common/service/web-rtc-connection.service';
 import {Subscription} from 'rxjs';
@@ -8,11 +8,12 @@ import {Subscription} from 'rxjs';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnDestroy, AfterViewInit {
     title = 'AdminUi';
     inputItemNgModel: any;
     @ViewChild('video')
     video: ElementRef<HTMLVideoElement>;
+    private localStream: MediaStream;
 
     private trackAddedSubscription: Subscription;
 
@@ -28,9 +29,14 @@ export class AppComponent implements OnDestroy {
     }
 
     public setVideoFeed(track: RTCTrackEvent): void {
-        track.track.onunmute = () => {
-            this.video.nativeElement.srcObject = track.streams[0];
-        };
+        if (track.streams.length !== 0) {
+            this.localStream.addTrack(track.track);
+        }
+    }
+
+    ngAfterViewInit(): void {
+        this.localStream = new MediaStream();
+        this.video.nativeElement.srcObject = this.localStream;
     }
 
     ngOnDestroy(): void {
