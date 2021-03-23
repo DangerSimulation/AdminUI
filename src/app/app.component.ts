@@ -19,7 +19,6 @@ export class AppComponent implements OnDestroy {
     constructor(private readonly messageService: MessageService, private readonly webRTCConnectionService: WebRTCConnectionService) {
         this.trackAddedSubscription = this.webRTCConnectionService.trackAddedSubject.subscribe(value => {
             this.setVideoFeed(value);
-            console.log(value);
         });
     }
 
@@ -30,6 +29,7 @@ export class AppComponent implements OnDestroy {
     public setVideoFeed(track: RTCTrackEvent): void {
         track.track.onunmute = () => {
             this.video.nativeElement.srcObject = track.streams[0];
+            console.log(track);
         };
     }
 

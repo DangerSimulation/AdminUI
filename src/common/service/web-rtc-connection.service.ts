@@ -34,7 +34,6 @@ export class WebRTCConnectionService {
             sdpMid: candidate['SdpMid']
         } as RTCIceCandidateInit;
 
-        //this.peerConnection.addIceCandidate(new RTCIceCandidate(init)).then(value => console.log('Set ice candidate')).catch(reason => console.log(`Add ice candidate failed with ${reason}`));
         this.iceCandidateQueue.unshift(init);
         this.setIceCandidates();
     }
@@ -81,7 +80,6 @@ export class WebRTCConnectionService {
     }
 
     public createOffer(): void {
-        this.peerConnection.addTransceiver('video', {direction: 'recvonly'});
 
         this.peerConnection.createOffer({
             offerToReceiveVideo: true,
@@ -110,19 +108,19 @@ export class WebRTCConnectionService {
 
     private setUpPeerConnection(): void {
         this.peerConnection = new RTCPeerConnection();
+        this.peerConnection.addTransceiver('video', {direction: 'recvonly'});
+
         this.peerConnection.onconnectionstatechange = ev => {
             console.log(this.peerConnection.connectionState);
         };
         this.peerConnection.onnegotiationneeded = event => {
             console.log('Negotiate');
-            //this.createOffer();
         };
         this.peerConnection.onicecandidate = candidateEvent => {
-            if (this.peerConnection.localDescription) {
-                //this.answerSubject.next(this.peerConnection.localDescription);
+            if (candidateEvent.candidate) {
+                this.iceCandidateSubject.next(candidateEvent.candidate);
+                console.log(`New ice candidate`);
             }
-            this.iceCandidateSubject.next(candidateEvent.candidate);
-            console.log(`New ice candidate`);
         };
         this.dataChannel = this.peerConnection.createDataChannel('dataChannel');
         this.dataChannel.onmessage = message => console.log(message);
@@ -137,29 +135,6 @@ export class WebRTCConnectionService {
             console.log('New track was added');
             this.trackAddedSubject.next(event);
         };
-
-        window.setInterval(() => {
-            /*this.peerConnection.getStats(null).then(stats => {
-                let statsOutput = '';
-
-                stats.forEach(report => {
-                    statsOutput += `Report: ${report.type}\nID: ${report.id}\n` +
-                        `Timestamp: ${report.timestamp}\n`;
-
-                    // Now the statistics for this report; we intentially drop the ones we
-                    // sorted to the top above
-
-                    Object.keys(report).forEach(statName => {
-                        if (statName !== 'id' && statName !== 'timestamp' && statName !== 'type') {
-                            statsOutput += `${statName}:${report[statName]}\n`;
-                        }
-                    });
-                });
-
-                console.log(statsOutput);
-            });*/
-        }, 1000);
-
 
     }
 }
