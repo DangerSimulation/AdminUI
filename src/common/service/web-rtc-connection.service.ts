@@ -20,6 +20,11 @@ export class WebRTCConnectionService {
     public async createPeerConnection(): Promise<void> {
         this.localConnection = new RTCPeerConnection({iceServers: [{urls: 'stun:stun.l.google.com:19302'}]});
 
+        this.dataChannel = this.localConnection.createDataChannel('data');
+        this.dataChannel.onopen = ev => console.log('Data channel opened');
+        this.dataChannel.onclose = ev => console.log('Data channel closed');
+        this.dataChannel.onmessage = (ev: MessageEvent) => console.log(ev.data);
+
         this.localConnection.onicecandidate = (iceEvent: RTCPeerConnectionIceEvent) => {
             console.log('New ice candidate');
             if (iceEvent.candidate) {
