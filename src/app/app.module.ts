@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
@@ -33,7 +33,7 @@ import {ScenarioControlModule} from './pages/scenario-control/scenario-control.m
         ScenarioSelectModule,
         ScenarioControlModule
     ],
-    providers: [],
+    providers: [{provide: LOCALE_ID, useValue: 'de-DE'}],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en-US" datatype="plaintext" original="ng2.template">
+        <body>
+            <trans-unit id="56cdf1aa4e1cfb699a79939b9126222a098b8f0d" datatype="html">
+                <source>Select the scenario you&apos;d like to use</source>
+                <source>Wähle das Szenario aus, dass genutzt werden soll</source>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/pages/scenario-select/scenario-select.component.ts
+                    </context>
+                    <context context-type="linenumber">16</context>
+                </context-group>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
