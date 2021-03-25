@@ -17,6 +17,13 @@ export class WebRTCConnectionService {
         this.trackAddedSubject = new Subject<RTCTrackEvent>();
     }
 
+    public resetWebRTCConnection(): void {
+        this.localConnection.close();
+        this.dataChannel.close();
+        this.localConnection = null;
+        this.dataChannel = null;
+    }
+
     public async createPeerConnection(): Promise<void> {
         this.localConnection = new RTCPeerConnection({iceServers: [{urls: 'stun:stun.l.google.com:19302'}]});
 

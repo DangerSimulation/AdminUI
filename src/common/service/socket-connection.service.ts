@@ -60,6 +60,7 @@ export class SocketConnectionService implements OnDestroy {
                 console.log(`Websocket connection closed. Reason ${reason}. Code ${code}`);
                 this.socketConnection = undefined;
                 this.broadcastService.startSocket();
+                this.webRTCConnectionService.resetWebRTCConnection();
             });
 
             //Start handshake
