@@ -7,7 +7,7 @@ import {ScenarioInformation} from '../shared/types';
 })
 export class ScenarioListService {
 
-    private scenarios: ScenarioInformation;
+    public scenarios: ScenarioInformation;
 
     constructor(private http: HttpClient) {
         this.http.get<ScenarioInformation>('../../assets/simulation-scenarios.json').subscribe(value => {

@@ -12,6 +12,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {VideoDisplayModule} from './pages/video-display/video-display.module';
 import {ScenarioSelectModule} from './pages/scenario-select/scenario-select.module';
 import {ScenarioControlModule} from './pages/scenario-control/scenario-control.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import {ScenarioControlModule} from './pages/scenario-control/scenario-control.m
         NgxElectronModule,
         VideoDisplayModule,
         ScenarioSelectModule,
-        ScenarioControlModule
+        ScenarioControlModule,
+        NgbModule
     ],
     providers: [{provide: LOCALE_ID, useValue: 'de-DE'}],
     bootstrap: [AppComponent]
