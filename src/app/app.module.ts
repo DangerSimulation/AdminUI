@@ -9,6 +9,9 @@ import {AppRoutingModule} from './app-routing.module';
 import {FormsModule} from '@angular/forms';
 import {NgxElectronModule} from 'ngx-electron';
 import {HttpClientModule} from '@angular/common/http';
+import {VideoDisplayModule} from './pages/video-display/video-display.module';
+import {ScenarioSelectModule} from './pages/scenario-select/scenario-select.module';
+import {ScenarioControlModule} from './pages/scenario-control/scenario-control.module';
 
 @NgModule({
     declarations: [
@@ -25,7 +28,10 @@ import {HttpClientModule} from '@angular/common/http';
         NbCardModule,
         HttpClientModule,
         FormsModule,
-        NgxElectronModule
+        NgxElectronModule,
+        VideoDisplayModule,
+        ScenarioSelectModule,
+        ScenarioControlModule
     ],
     providers: [],
     bootstrap: [AppComponent]

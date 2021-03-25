@@ -5,14 +5,10 @@
     </nb-layout-header>
 
     <nb-layout-column class="leftColumn">
-        <nb-card>
-            <nb-card-body class="example-items-col">
-                <input (input)="log()" [(ngModel)]="inputItemNgModel" nbInput placeholder="Input" type="text">
-            </nb-card-body>
-        </nb-card>
+        <router-outlet></router-outlet>
     </nb-layout-column>
     <nb-layout-column>
-        <video #video autoplay></video>
+        <app-video-display></app-video-display>
     </nb-layout-column>
 
 
