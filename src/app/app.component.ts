@@ -2,6 +2,7 @@ import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
 import {MessageService} from '../common/service/message.service';
 import {WebRTCConnectionService} from '../common/service/web-rtc-connection.service';
 import {Subscription} from 'rxjs';
+import {ScenarioListService} from '../common/service/scenario-list.service';
 
 @Component({
     selector: 'app-root',
@@ -16,7 +17,7 @@ export class AppComponent implements OnDestroy {
 
     private trackAddedSubscription: Subscription;
 
-    constructor(private readonly messageService: MessageService, private readonly webRTCConnectionService: WebRTCConnectionService) {
+    constructor(private readonly messageService: MessageService, private readonly webRTCConnectionService: WebRTCConnectionService, private readonly scenarioListService: ScenarioListService) {
         this.trackAddedSubscription = this.webRTCConnectionService.trackAddedSubject.subscribe(value => {
             this.setVideoFeed(value);
         });

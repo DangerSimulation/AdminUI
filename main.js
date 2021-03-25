@@ -52,8 +52,6 @@ try {
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
     // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
-    electron_1.app.commandLine.appendSwitch('enable-logging');
-    electron_1.app.commandLine.appendSwitch('vmodule', '*/webrtc/*=0');
     electron_1.app.on('ready', function () {
         setTimeout(createWindow, 400);
     });
