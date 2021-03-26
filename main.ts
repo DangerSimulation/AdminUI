@@ -35,6 +35,10 @@ function createWindow(): BrowserWindow {
         });
         win.loadURL('http://localhost:4200');
 
+        win.webContents.on('did-start-loading', () => { //cursor-changed
+            win.webContents.send('reload-triggered');
+        });
+
     } else {
         win.loadURL(url.format({
             pathname: path.join(__dirname, 'dist/AdminUI/index.html'),
@@ -51,9 +55,6 @@ function createWindow(): BrowserWindow {
         win = null;
     });
 
-    win.webContents.on('did-start-loading', () => { //cursor-changed
-        win.webContents.send('reload-triggered');
-    });
 
     return win;
 }
