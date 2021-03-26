@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ScenarioListService} from '../../../common/service/scenario-list.service';
 import {Scenario} from '../../../common/shared/types';
 import {Router} from '@angular/router';
+import {ScenarioService} from '../../../common/service/scenario.service';
 
 @Component({
     selector: 'app-scenario-select',
@@ -10,7 +11,8 @@ import {Router} from '@angular/router';
 })
 export class ScenarioSelectComponent implements OnInit {
 
-    constructor(public readonly ScenarioListService: ScenarioListService, private readonly router: Router) {
+    constructor(public readonly ScenarioListService: ScenarioListService, private readonly router: Router,
+                private scenarioService: ScenarioService) {
 
     }
 
@@ -18,7 +20,11 @@ export class ScenarioSelectComponent implements OnInit {
     }
 
     public onScenarioSelected(scenario: Scenario): void {
-        this.router.navigateByUrl('control').then(value => console.log(`Scenario ${scenario.name} selected`));
+        this.scenarioService.scenario = scenario;
+
+        this.router.navigateByUrl('control').then(value => {
+            console.log(`Scenario ${scenario.name} selected`);
+        });
     }
 
 }
