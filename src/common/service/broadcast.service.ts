@@ -4,6 +4,7 @@ import {ElectronService} from 'ngx-electron';
 import {environment} from '../../environments/environment';
 import {Subscription, timer} from 'rxjs';
 
+
 @Injectable({
     providedIn: 'root'
 })

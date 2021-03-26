@@ -4,11 +4,11 @@
     </nb-card-header>
     <nb-card-body>
 
-        <div *ngIf="ScenarioListService.scenarios | async as scenarios">
+        <div *ngIf="ScenarioListService.scenarios | async as scenarios" class="text-center">
             <nb-accordion *ngFor="let scenario of scenarios.scenarios">
                 <nb-accordion-item>
                     <nb-accordion-item-header>{{scenario.name}}</nb-accordion-item-header>
-                    <nb-accordion-item-body class="text-center">
+                    <nb-accordion-item-body>
                         <div>
                             {{scenario.description}}
                         </div>

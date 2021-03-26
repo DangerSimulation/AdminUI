@@ -37,5 +37,11 @@ export interface Scenario {
 export interface Step {
     id: number,
     description: string,
+    initiator: Initiator,
     next: number[]
+}
+
+export interface Initiator {
+    description: string,
+    event: string
 }

@@ -1,1 +1,45 @@
-<p>scenario-control works!</p>
+<nb-card class="text-center">
+    <nb-card-header i18n>
+        Using scenario {{this.scenarioService.scenario.name}}
+    </nb-card-header>
+    <nb-card-body>
+        {{scenarioService.scenario.description}}
+    </nb-card-body>
+</nb-card>
+<div class="text-center">
+    <nb-card>
+        <nb-card-header i18n>
+            Current step:
+        </nb-card-header>
+        <nb-card-body>
+            {{scenarioService.currentStep.description}}
+        </nb-card-body>
+    </nb-card>
+</div>
+
+<div *ngIf="scenarioService.nextStepList.length !== 0" class="text-center">
+    <div i18n>
+        Possible next steps
+    </div>
+    <nb-icon class="mt-2" icon="arrow-downward-outline">
+    </nb-icon>
+</div>
+
+<div *ngFor="let step of scenarioService.scenario.steps" class="mt-4 text-center">
+    <nb-card *ngIf="scenarioService.nextStepList.includes(step.id)">
+        <nb-card-header>
+            {{step.description}}
+        </nb-card-header>
+        <nb-card-body *ngIf="step.initiator">
+            <div class="font-weight-bold" i18n>
+                Selecting this step triggers the following action:
+            </div>
+            <div class="mt-2">
+                {{step.initiator.description}}
+            </div>
+        </nb-card-body>
+        <nb-card-footer>
+            <button (click)="onSelectClick(step)" i18n nbButton>Select</button>
+        </nb-card-footer>
+    </nb-card>
+</div>

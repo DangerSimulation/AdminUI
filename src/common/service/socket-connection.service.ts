@@ -58,6 +58,7 @@ export class SocketConnectionService implements OnDestroy {
 
             ws.on('close', (ws: WebSocket, code: number, reason: string) => {
                 console.log(`Websocket connection closed. Reason ${reason}. Code ${code}`);
+                this.socketConnection.close();
                 this.socketConnection = undefined;
                 this.broadcastService.startSocket();
                 this.webRTCConnectionService.resetWebRTCConnection();
@@ -86,6 +87,8 @@ export class SocketConnectionService implements OnDestroy {
     }
 
     ngOnDestroy(): void {
+        console.log(1);
+
         this.closeSocket();
     }
 

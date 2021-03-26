@@ -13,14 +13,13 @@ export class ScenarioSelectComponent implements OnInit {
 
     constructor(public readonly ScenarioListService: ScenarioListService, private readonly router: Router,
                 private scenarioService: ScenarioService) {
-
     }
 
     ngOnInit(): void {
     }
 
     public onScenarioSelected(scenario: Scenario): void {
-        this.scenarioService.scenario = scenario;
+        this.scenarioService.setScenarioInformation(scenario);
 
         this.router.navigateByUrl('control').then(value => {
             console.log(`Scenario ${scenario.name} selected`);
