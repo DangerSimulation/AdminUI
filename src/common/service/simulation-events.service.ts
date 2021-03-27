@@ -1,18 +1,31 @@
 import {Injectable} from '@angular/core';
 import {MessageService} from './message.service';
-import {SimulationEvents} from '../shared/types';
+import {NbToastrService} from '@nebular/theme';
+import {SimulationMessage} from '../shared/types';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SimulationEventsService {
 
-    constructor(private messageService: MessageService) {
+    private knownEvents: string[] = [
+        'Strand:DrowningMan',
+        'StrandSelected',
+
+    ];
+
+    constructor(private messageService: MessageService, private toasterService: NbToastrService) {
     }
 
-    public sendSimulationEvent(event: SimulationEvents): void {
-        console.log(`Send ${event} to simulation`);
-        this.messageService.sendMessage(event);
+    public sendSimulationEvent(message: SimulationMessage<unknown>, event: string): void {
+        if (this.knownEvents.includes(event)) {
+            console.log(`Send ${event} to simulation`);
+            this.messageService.sendMessage(message);
+        } else {
+            const errMessage = `Unknown event ${event}. Check the simulation-scenario.json or add ${event} to the known events.`;
+            this.toasterService.danger(errMessage, 'Event error');
+            console.error(`Unknown event ${event}. Check the simulation-scenario.json or add ${event} to the known events.`);
+        }
     }
 
 }

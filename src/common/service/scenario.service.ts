@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Scenario, Step} from '../shared/types';
+import {Scenario, SimulationMessage, Step} from '../shared/types';
 import {SimulationEventsService} from './simulation-events.service';
 
 @Injectable({
@@ -29,7 +29,11 @@ export class ScenarioService {
         this.currentStep = step;
         this.nextStepList = step.next;
         if (step.initiator) {
-            this.simulationEventsService.sendSimulationEvent(step.initiator.event);
+            const message: SimulationMessage<string> = {
+                eventType: 'InitiatorEvent',
+                data: step.initiator.event
+            };
+            this.simulationEventsService.sendSimulationEvent(message, step.initiator.event);
         }
     }
 

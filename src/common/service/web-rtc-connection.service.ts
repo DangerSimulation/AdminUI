@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
-import {Side, SignalingMessage} from '../shared/types';
+import {Side, SignalingMessage, SimulationMessage} from '../shared/types';
 
 @Injectable({
     providedIn: 'root'
@@ -106,8 +106,8 @@ export class WebRTCConnectionService {
         }
     }
 
-    public sendMessage(message: string) {
-        this.dataChannel.send(message);
+    public sendMessage(message: SimulationMessage<unknown>) {
+        this.dataChannel.send(JSON.stringify(message));
     }
 }
 

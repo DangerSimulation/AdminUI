@@ -24,7 +24,7 @@ export interface ScenarioInformation {
 
 export interface Scenario {
     id: number,
-    name: ScenarioName,
+    name: string,
     description: string,
     steps: Step[]
 }
@@ -38,12 +38,10 @@ export interface Step {
 
 export interface Initiator {
     description: string,
-    event: SimulationEvents
+    event: string
 }
 
-export type ScenarioName = 'Strand' | 'awdbjh' | 'akjfnjakifb';
-export type InitiatorEventName = 'DrowningMan';
-
-//Have all events here. Scenario select events should be <scenario name>Selected
-//Scenario events should be named <scenario name><event name>
-export type SimulationEvents = `${ScenarioName}:${InitiatorEventName}` | `${ScenarioName}Selected` | null
+export interface SimulationMessage<T> {
+    eventType: 'InitiatorEvent' | 'SystemUpdate' | 'SceneSelection',
+    data: T
+}
