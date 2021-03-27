@@ -87,8 +87,6 @@ export class SocketConnectionService implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        console.log(1);
-
         this.closeSocket();
     }
 

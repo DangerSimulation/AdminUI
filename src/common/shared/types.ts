@@ -1,8 +1,3 @@
-export interface PeerMessage<T> {
-    messageType: string,
-    data: T
-}
-
 export interface SignalingMessage {
     sdp: string,
     type: string,
@@ -29,7 +24,7 @@ export interface ScenarioInformation {
 
 export interface Scenario {
     id: number,
-    name: string,
+    name: ScenarioName,
     description: string,
     steps: Step[]
 }
@@ -43,5 +38,12 @@ export interface Step {
 
 export interface Initiator {
     description: string,
-    event: string
+    event: SimulationEvents
 }
+
+export type ScenarioName = 'Strand' | 'awdbjh' | 'akjfnjakifb';
+export type InitiatorEventName = 'DrowningMan';
+
+//Have all events here. Scenario select events should be <scenario name>Selected
+//Scenario events should be named <scenario name><event name>
+export type SimulationEvents = `${ScenarioName}:${InitiatorEventName}` | `${ScenarioName}Selected` | null
