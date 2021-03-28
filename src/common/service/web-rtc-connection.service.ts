@@ -107,7 +107,11 @@ export class WebRTCConnectionService {
     }
 
     public sendMessage(message: SimulationMessage<unknown>) {
-        this.dataChannel.send(JSON.stringify(message));
+        if (this.dataChannel !== undefined) {
+            this.dataChannel.send(JSON.stringify(message));
+        } else {
+            console.warn('Data channel is not connected. Check connection status');
+        }
     }
 }
 

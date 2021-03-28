@@ -45,3 +45,8 @@ export interface SimulationMessage<T> {
     eventType: 'InitiatorEvent' | 'SystemUpdate' | 'SceneSelection',
     data: T
 }
+
+export interface SystemUpdateMessage<T> {
+    action: 'SceneCancel' | 'Ping',
+    additionalData: T
+}

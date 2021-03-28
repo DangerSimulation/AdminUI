@@ -11,6 +11,7 @@ export class MessageService {
     }
 
     public sendMessage(message: SimulationMessage<unknown>): void {
+        console.log(`Send event ${message.eventType} to simulation. Data: ${JSON.stringify(message.data)}`);
         this.webRTCConnectionService.sendMessage(message);
     }
 }

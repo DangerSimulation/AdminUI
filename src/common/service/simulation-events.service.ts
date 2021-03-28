@@ -19,7 +19,6 @@ export class SimulationEventsService {
 
     public sendSimulationEvent(message: SimulationMessage<unknown>, event: string): void {
         if (this.knownEvents.includes(event)) {
-            console.log(`Send ${event} to simulation`);
             this.messageService.sendMessage(message);
         } else {
             const errMessage = `Unknown event ${event}. Check the simulation-scenario.json or add ${event} to the known events.`;
