@@ -5,8 +5,8 @@ import {ScenarioControlComponent} from '../../app/pages/scenario-control/scenari
 import {NbDialogService} from '@nebular/theme';
 import {SceneResetComponent} from '../dialog/scene-reset/scene-reset.component';
 import {ScenarioService} from '../service/scenario.service';
-import {MessageService} from '../service/message.service';
 import {SimulationMessage, SystemUpdateMessage} from '../shared/types';
+import {SimulationEventsService} from '../service/simulation-events.service';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +14,7 @@ import {SimulationMessage, SystemUpdateMessage} from '../shared/types';
 export class ResetScenarioGuard implements CanDeactivate<ScenarioControlComponent> {
 
     constructor(private dialogService: NbDialogService, private scenarioService: ScenarioService,
-                private messageService: MessageService) {
+                private simulationEventsService: SimulationEventsService) {
     }
 
     //Return true to route
@@ -41,7 +41,7 @@ export class ResetScenarioGuard implements CanDeactivate<ScenarioControlComponen
                             additionalData: 'Returned to scene selection'
                         }
                     };
-                    this.messageService.sendMessage(message);
+                    this.simulationEventsService.sendSimulationEvent(message, 'SceneCancel');
                 }
 
                 subscriber.next(arg);

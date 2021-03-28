@@ -9,9 +9,9 @@ import {SimulationMessage} from '../shared/types';
 export class SimulationEventsService {
 
     private knownEvents: string[] = [
-        'Strand:DrowningMan',
+        'DrowningMan',
         'StrandSelected',
-
+        'SceneCancel'
     ];
 
     constructor(private messageService: MessageService, private toasterService: NbToastrService) {
