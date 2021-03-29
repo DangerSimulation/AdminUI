@@ -1,27 +1,46 @@
 # AdminUi
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.2.
+This is the admin ui used to supervise and control
+the [unity vr application: Simulation](https://www.github.com/DangerSimulation/Simulation). This app gets the camera
+feed of Simulation and has a side panel to control events inside Simulation.
 
-## Development server
+1. [Installation](#installation)
+2. [Requirements](#requirements)
+3. [Tech stack](#tech-stack)
+4. [Connection flow](#connection-flow)
+5. [How to extend](#how-to-extend)
+6. [Configuring scenarios](#configuring-scenarios)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Installation
 
-## Code scaffolding
+TODO: this
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Requirements
 
-## Build
+- Connection between simulation and admin ui has to be seamless.
+- Reconnect immediately, should the connection be lost.
+- A consistent state between admin ui and simulation has to be kept at all times.
+- A connection has to be established without any user interaction.
+    - This requires the admin ui and the simulation to be in the same network,
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Tech stack
 
-## Running unit tests
+This app is an angular site wrapped into electron. This enables cross platform support and gives the angular app os
+functionality like starting a websocket server.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Complete stack list:
 
-## Running end-to-end tests
+- Electron ~ Enables desktop functionality
+- Angular ~ UI Framework
+- Nebular ~ Component library, supplements angular
+- ws ~ Simple websocket framework
+- dgram ~ Node udp package
+- WebRTC ~ Peer to Peer audio and video streaming
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Connection flow
 
-## Further help
+![The connection flow displayed in one picture](https://github.com/DangerSimulation/Documentation/blob/main/Files/ConnectionFlow.png?raw=true)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## How to extend
+
+## Configuring scenarios
