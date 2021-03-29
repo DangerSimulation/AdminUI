@@ -41,6 +41,137 @@ Complete stack list:
 
 ![The connection flow displayed in one picture](https://github.com/DangerSimulation/Documentation/blob/main/Files/ConnectionFlow.png?raw=true)
 
+AdminUI first starts to send UDP broadcast messages and creates a websocket server. Simulation listens to broadcast
+messages and connects to the websocket of the admin ui. This is possible with the sender ip address from the broadcast
+message. The webrtc handshake gets initiated as soon as the websocket connection is established. The webrtc handshake
+can be viewed in [this](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Signaling_and_video_calling)
+tutorial. The "Signalling Server" is the websocket.
+
+We restart the connection flow once a connection is lost.
+
 ## How to extend
+
+All UI elements to control the simulation are defined with a [json document](src/assets/simulation-scenarios.json). This
+defines all scenarios and each step in each scenario.
+
+### General json structure
+
+```typescript
+interface ScenarioList {
+    version: number,
+    scenarios: Scenario[]
+}
+
+interface Scenario {
+    id: number,
+    name: string,
+    description: string,
+    steps: Step[]
+}
+
+interface Step {
+    id: number,
+    description: string,
+    initiator: Initiator | null,
+    next: number[]
+}
+
+interface Initiator {
+    description: string,
+    event: string
+}
+```
+
+The top level object is *ScenarioList*, it holds all scenarios. Each scenario has a name, description, id and an array
+of steps. Each step has an id, a description, an optional initiator and an array of following steps. The initiator is
+either an event forwarded to the simulation or null.
+
+### Example JSON
+
+Let's say you want to add a scenario named "CarCrash". You'd first add a new scenario:
+
+```json
+{
+  "version": 0,
+  "scenarios": [
+	{},
+	{
+	  "id": 1,
+	  "name": "CarCrash",
+	  "description": "Example scenario of a car crash",
+	  "steps": [
+		{}
+	  ]
+	}
+  ]
+}
+```
+
+And this scenario has 4 steps.
+
+```json
+{
+  "version": 0,
+  "scenarios": [
+	{},
+	{
+	  "id": 1,
+	  "name": "CarCrash",
+	  "description": "Example scenario of a car crash",
+	  "steps": [
+		{
+		  "id": 0,
+		  "description": "You arrived at the crash site",
+		  "initiator": null,
+		  "next": [
+			1,
+			2
+		  ]
+		},
+		{
+		  "id": 1,
+		  "description": "Go and ask the first responders about the situation",
+		  "initiator": {
+			"description": "Initiate a conversation with first responders",
+			"event": "InformAboutSituation"
+		  },
+		  "next": [
+		  ]
+		},
+		{
+		  "id": 2,
+		  "description": "Take a closer look at the crash site",
+		  "initiator": null,
+		  "next": [
+		  ]
+		}
+	  ]
+	}
+  ]
+}
+```
+
+We have added 3 steps to our scenario. The first step with the id 0 is the initial step. In it's *next* property we have
+two possible following steps. Meaning after arriving we have either the option to talk to the first responders or
+investigate the site. One step has also an *initiator*. In this case it would initiate the conversation with first
+responders. If you'd select that step, an event with the name *InformationAboutSituation* would be sent to the
+simulation.
+
+The other thing you'd need to do to add a scenario is to add all events to the known event list in the
+[*simulation-events.service.ts*](src/common/service/simulation-events.service.ts). That includes all initiator events
+and the name of our scenario with a postfix of "Selected". So we need to add "InformAboutSituation" and "
+CarCrashSelected". For our example that means adding:
+
+```typescript
+export class SimulationEventsService {
+
+    private knownEvents: string[] = [
+        '...',
+        'CarCrashSelected',
+        'InformAboutSituation'
+    ];
+
+}
+```
 
 ## Configuring scenarios

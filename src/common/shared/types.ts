@@ -12,12 +12,6 @@ export enum Side {
 }
 
 export interface ScenarioList {
-    name: string,
-    description: string,
-    id: number
-}
-
-export interface ScenarioInformation {
     version: number,
     scenarios: Scenario[]
 }
@@ -32,7 +26,7 @@ export interface Scenario {
 export interface Step {
     id: number,
     description: string,
-    initiator: Initiator,
+    initiator: Initiator | null,
     next: number[]
 }
 
