@@ -26,7 +26,7 @@ export class ScenarioSelectComponent implements OnInit {
             console.log(`Scenario ${scenario.name} selected`);
 
             const message: SimulationMessage<string> = {
-                eventType: 'SceneSelection',
+                eventType: 'ScenarioSelection',
                 data: scenario.name
             };
 

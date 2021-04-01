@@ -11,7 +11,7 @@ export class SimulationEventsService {
     private knownEvents: string[] = [
         'DrowningMan',
         'StrandSelected',
-        'SceneCancel'
+        'ScenarioCancel'
     ];
 
     constructor(private messageService: MessageService, private toasterService: NbToastrService) {

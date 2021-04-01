@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, UrlTree} fro
 import {Observable} from 'rxjs';
 import {ScenarioControlComponent} from '../../app/pages/scenario-control/scenario-control.component';
 import {NbDialogService} from '@nebular/theme';
-import {SceneResetComponent} from '../dialog/scene-reset/scene-reset.component';
+import {ScenarioResetComponent} from '../dialog/scenario-reset/scenario-reset.component';
 import {ScenarioService} from '../service/scenario.service';
 import {SimulationMessage, SystemUpdateMessage} from '../shared/types';
 import {SimulationEventsService} from '../service/simulation-events.service';
@@ -29,7 +29,7 @@ export class ResetScenarioGuard implements CanDeactivate<ScenarioControlComponen
         }
 
         return new Observable<boolean>(subscriber => {
-            this.dialogService.open(SceneResetComponent, {
+            this.dialogService.open(ScenarioResetComponent, {
                 closeOnBackdropClick: false,
                 closeOnEsc: false
             }).onClose.subscribe(arg => {
@@ -37,11 +37,11 @@ export class ResetScenarioGuard implements CanDeactivate<ScenarioControlComponen
                     const message: SimulationMessage<SystemUpdateMessage<string>> = {
                         eventType: 'SystemUpdate',
                         data: {
-                            action: 'SceneCancel',
-                            additionalData: 'Returned to scene selection'
+                            action: 'ScenarioCancel',
+                            additionalData: 'Returned to scenario selection'
                         }
                     };
-                    this.simulationEventsService.sendSimulationEvent(message, 'SceneCancel');
+                    this.simulationEventsService.sendSimulationEvent(message, 'ScenarioCancel');
                 }
 
                 subscriber.next(arg);

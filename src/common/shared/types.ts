@@ -36,11 +36,11 @@ export interface Initiator {
 }
 
 export interface SimulationMessage<T> {
-    eventType: 'InitiatorEvent' | 'SystemUpdate' | 'SceneSelection',
+    eventType: 'InitiatorEvent' | 'SystemUpdate' | 'ScenarioSelection',
     data: T
 }
 
 export interface SystemUpdateMessage<T> {
-    action: 'SceneCancel' | 'Ping',
+    action: 'ScenarioCancel' | 'Ping',
     additionalData: T
 }

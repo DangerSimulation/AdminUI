@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {SceneResetComponent} from './scene-reset/scene-reset.component';
+import {ScenarioResetComponent} from './scenario-reset/scenario-reset.component';
 import {NbButtonModule, NbCardModule, NbDialogService} from '@nebular/theme';
 
 
 @NgModule({
-    declarations: [SceneResetComponent],
+    declarations: [ScenarioResetComponent],
     imports: [
         CommonModule,
         NbCardModule,

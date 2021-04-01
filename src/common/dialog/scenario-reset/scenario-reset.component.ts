@@ -2,13 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {NbDialogRef} from '@nebular/theme';
 
 @Component({
-    selector: 'app-scene-reset',
-    templateUrl: './scene-reset.component.html',
-    styleUrls: ['./scene-reset.component.css']
+    selector: 'app-scenario-reset',
+    templateUrl: './scenario-reset.component.html',
+    styleUrls: ['./scenario-reset.component.css']
 })
-export class SceneResetComponent implements OnInit {
+export class ScenarioResetComponent implements OnInit {
 
-    constructor(protected dialogReference: NbDialogRef<SceneResetComponent>) {
+    constructor(protected dialogReference: NbDialogRef<ScenarioResetComponent>) {
     }
 
     ngOnInit(): void {
