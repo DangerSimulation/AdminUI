@@ -9,7 +9,6 @@ feed of Simulation and has a side panel to control events inside Simulation.
 3. [Tech stack](#tech-stack)
 4. [Connection flow](#connection-flow)
 5. [How to extend](#how-to-extend)
-6. [Configuring scenarios](#configuring-scenarios)
 
 ## Installation
 
@@ -158,7 +157,7 @@ responders. If you'd select that step, an event with the name *InformationAboutS
 simulation.
 
 The other thing you'd need to do to add a scenario is to add all events to the known event list in the
-[*simulation-events.service.ts*](src/common/service/simulation-events.service.ts). That includes all initiator events
+[*simulation-events.service.ts*](src/common/service/simulation-events.service.ts). That includes all initiator events,
 and the name of our scenario with a postfix of "Selected". So we need to add "InformAboutSituation" and "
 CarCrashSelected". For our example that means adding:
 
@@ -174,4 +173,5 @@ export class SimulationEventsService {
 }
 ```
 
-## Configuring scenarios
+This is the part done for the AdminUI. New events have to be implemented in the simulation as well. Refer
+to [this](https://github.com/DangerSimulation/Simulation).
