@@ -12,7 +12,9 @@ feed of Simulation and has a side panel to control events inside Simulation.
 
 ## Installation
 
-TODO: this
+For the development version simply type `npm start` into your favorite shell.
+
+TODO: Add prod version.
 
 ## Requirements
 
