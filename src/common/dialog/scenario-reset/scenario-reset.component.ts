@@ -1,24 +1,24 @@
-import {Component, OnInit} from '@angular/core';
 import {NbDialogRef} from '@nebular/theme';
+import {Component, OnInit} from "@angular/core";
 
 @Component({
-    selector: 'app-scenario-reset',
-    templateUrl: './scenario-reset.component.html',
-    styleUrls: ['./scenario-reset.component.css']
+	selector: 'app-scenario-reset',
+	templateUrl: './scenario-reset.component.html',
+	styleUrls: ['./scenario-reset.component.css']
 })
 export class ScenarioResetComponent implements OnInit {
 
-    constructor(protected dialogReference: NbDialogRef<ScenarioResetComponent>) {
-    }
+	constructor(protected dialogReference: NbDialogRef<ScenarioResetComponent>) {
+	}
 
-    ngOnInit(): void {
-    }
+	ngOnInit(): void {
+	}
 
-    public onConfirmClick(): void {
-        this.dialogReference.close(true);
-    }
+	public onConfirmClick(): void {
+		this.dialogReference.close(true);
+	}
 
-    public onCancelClick(): void {
-        this.dialogReference.close(false);
-    }
+	public onCancelClick(): void {
+		this.dialogReference.close(false);
+	}
 }

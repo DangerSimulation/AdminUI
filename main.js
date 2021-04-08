@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
+// Initialize remote module
+require('@electron/remote/main').initialize();
 var win = null;
 var args = process.argv.slice(1), serve = args.some(function (val) { return val === '--serve'; });
 function createWindow() {
@@ -15,6 +17,7 @@ function createWindow() {
         width: size.width,
         height: size.height,
         webPreferences: {
+            webSecurity: false,
             nodeIntegration: true,
             allowRunningInsecureContent: (serve),
             contextIsolation: false,
@@ -27,10 +30,13 @@ function createWindow() {
             electron: require(__dirname + "/node_modules/electron")
         });
         win.loadURL('http://localhost:4200');
+        win.webContents.on('did-start-loading', function () {
+            win.webContents.send('reload-triggered');
+        });
     }
     else {
         win.loadURL(url.format({
-            pathname: path.join(__dirname, 'dist/AdminUI/index.html'),
+            pathname: path.join(__dirname, 'dist/index.html'),
             protocol: 'file:',
             slashes: true
         }));
@@ -42,9 +48,6 @@ function createWindow() {
         // when you should delete the corresponding element.
         win = null;
     });
-    win.webContents.on('did-start-loading', function () {
-        win.webContents.send('reload-triggered');
-    });
     return win;
 }
 try {
@@ -52,9 +55,7 @@ try {
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
     // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
-    electron_1.app.on('ready', function () {
-        setTimeout(createWindow, 400);
-    });
+    electron_1.app.on('ready', function () { return setTimeout(createWindow, 400); });
     // Quit when all windows are closed.
     electron_1.app.on('window-all-closed', function () {
         // On OS X it is common for applications and their menu bar
@@ -69,6 +70,10 @@ try {
         if (win === null) {
             createWindow();
         }
+    });
+    electron_1.ipcMain.on('ping', function (event, args) {
+        event.sender.send('pong', 'pong');
+        console.log(args);
     });
 }
 catch (e) {

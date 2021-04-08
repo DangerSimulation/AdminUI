@@ -1,5 +1,4 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {ElectronService} from 'ngx-electron';
 import * as WebSocket from 'ws';
 import {Server} from 'ws';
 import {WebRTCConnectionService} from './web-rtc-connection.service';
@@ -7,6 +6,7 @@ import {Side, SignalingMessage} from '../shared/types';
 import {IncomingMessage} from 'http';
 import {Subscription} from 'rxjs';
 import {BroadcastService} from './broadcast.service';
+import {ElectronService} from "./electron.service";
 
 @Injectable({
     providedIn: 'root'
@@ -74,7 +74,7 @@ export class SocketConnectionService implements OnDestroy {
         });
 
         this.electronService.ipcRenderer.on('reload-triggered', () => {
-            //this.closeSocket();
+            this.closeSocket();
         });
 
     }
