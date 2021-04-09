@@ -20,10 +20,7 @@ jobs:
             -   name: "Build"
                 run: "npm run electron:build"
             -   name: "Archive Release"
-                uses: "thedoctor0/zip-release@master"
-                with:
-                    filename: 'windows.zip'
-                    path: "./release"
+                run: "Compress-Archive -Path ./release/* -DestinationPath windows.zip"
             -   uses: "marvinpinto/action-automatic-releases@latest"
                 with:
                     repo_token: "${{ secrets.GITHUB_TOKEN }}"
