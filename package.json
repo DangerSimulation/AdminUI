@@ -1,9 +1,10 @@
 {
 	"name": "admin-ui",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"description": "Oversee and influence the simulation",
 	"homepage": "https://github.com/DangerSimulation/AdminUI",
 	"main": "main.js",
+	"author": "DangerSimulation",
 	"private": true,
 	"scripts": {
 		"postinstall": "electron-builder install-app-deps",

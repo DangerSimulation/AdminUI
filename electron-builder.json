@@ -1,5 +1,6 @@
 {
-	"productName": "admin-ui",
+	"productName": "AdminUI",
+	"artifactName": "admin-ui.exe",
 	"directories": {
 		"output": "release/"
 	},
@@ -26,10 +27,7 @@
 		"!*.map"
 	],
 	"win": {
-		"icon": "dist/assets/icons",
-		"target": [
-			"portable"
-		]
+		"icon": "dist/assets/icons"
 	},
 	"mac": {
 		"icon": "dist/assets/icons",
