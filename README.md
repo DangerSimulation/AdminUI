@@ -14,7 +14,9 @@ feed of Simulation and has a side panel to control events inside Simulation.
 
 For the development version simply type `npm start` into your favorite shell.
 
-TODO: Add prod version.
+If you'd want to create a new release, simply use the npm script `electron:build`.
+
+All other releases are available on the releases tab on [Github](https://github.com/DangerSimulation/AdminUI/releases).
 
 ## Requirements
 
@@ -22,7 +24,7 @@ TODO: Add prod version.
 - Reconnect immediately, should the connection be lost.
 - A consistent state between admin ui and simulation has to be kept at all times.
 - A connection has to be established without any user interaction.
-    - This requires the admin ui and the simulation to be in the same network,
+	- This requires the admin ui and the simulation to be in the same network,
 
 ## Tech stack
 
@@ -59,33 +61,35 @@ defines all scenarios and each step in each scenario.
 
 ```typescript
 interface ScenarioList {
-    version: number,
-    scenarios: Scenario[]
+	version: number,
+	scenarios: Scenario[]
 }
 
 interface Scenario {
-    id: number,
-    name: string,
-    description: string,
-    steps: Step[]
+	id: number,
+	name: string,
+	description: string,
+	steps: Step[]
 }
 
 interface Step {
-    id: number,
-    description: string,
-    initiator: Initiator | null,
-    next: number[]
+	id: string,
+	description: string,
+	unique: boolean,
+	initiator: Initiator | null,
+	next: number[]
 }
 
 interface Initiator {
-    description: string,
-    event: string
+	description: string,
+	event: string
 }
 ```
 
 The top level object is *ScenarioList*, it holds all scenarios. Each scenario has a name, description, id and an array
-of steps. Each step has an id, a description, an optional initiator and an array of following steps. The initiator is
-either an event forwarded to the simulation or null.
+of steps. Each step has an id, a description, an indicator for uniqueness, an optional initiator and an array of
+following steps. The initiator is either an event forwarded to the simulation or null. The unique property indicates
+whether an event should only be used once.
 
 ### Example JSON
 
@@ -93,18 +97,18 @@ Let's say you want to add a scenario named "CarCrash". You'd first add a new sce
 
 ```json
 {
-  "version": 0,
-  "scenarios": [
-	{},
-	{
-	  "id": 1,
-	  "name": "CarCrash",
-	  "description": "Example scenario of a car crash",
-	  "steps": [
-		{}
-	  ]
-	}
-  ]
+	"version": 0,
+	"scenarios": [
+		{},
+		{
+			"id": 1,
+			"name": "CarCrash",
+			"description": "Example scenario of a car crash",
+			"steps": [
+				{}
+			]
+		}
+	]
 }
 ```
 
@@ -112,49 +116,49 @@ And this scenario has 4 steps.
 
 ```json
 {
-  "version": 0,
-  "scenarios": [
-	{},
-	{
-	  "id": 1,
-	  "name": "CarCrash",
-	  "description": "Example scenario of a car crash",
-	  "steps": [
+	"version": 0,
+	"scenarios": [
+		{},
 		{
-		  "id": 0,
-		  "description": "You arrived at the crash site",
-		  "initiator": null,
-		  "next": [
-			1,
-			2
-		  ]
-		},
-		{
-		  "id": 1,
-		  "description": "Go and ask the first responders about the situation",
-		  "initiator": {
-			"description": "Initiate a conversation with first responders",
-			"event": "InformAboutSituation"
-		  },
-		  "next": [
-		  ]
-		},
-		{
-		  "id": 2,
-		  "description": "Take a closer look at the crash site",
-		  "initiator": null,
-		  "next": [
-		  ]
+			"id": 1,
+			"name": "CarCrash",
+			"description": "Example scenario of a car crash",
+			"steps": [
+				{
+					"id": "Arrival",
+					"description": "You arrived at the crash site",
+					"initiator": null,
+					"next": [
+						"AskResponders",
+						"Investigate"
+					]
+				},
+				{
+					"id": "AskResponders",
+					"description": "Go and ask the first responders about the situation",
+					"initiator": {
+						"description": "Initiate a conversation with first responders",
+						"event": "InformAboutSituation"
+					},
+					"next": [
+					]
+				},
+				{
+					"id": "Investigate",
+					"description": "Take a closer look at the crash site",
+					"initiator": null,
+					"next": [
+					]
+				}
+			]
 		}
-	  ]
-	}
-  ]
+	]
 }
 ```
 
-We have added 3 steps to our scenario. The first step with the id 0 is the initial step. In it's *next* property we have
-two possible following steps. Meaning after arriving we have either the option to talk to the first responders or
-investigate the site. One step has also an *initiator*. In this case it would initiate the conversation with first
+We have added 3 steps to our scenario. The first step with the id "Arrival" is the initial step. In it's *next* property
+we have two possible following steps. Meaning after arriving we have either the option to talk to the first responders
+or investigate the site. One step has also an *initiator*. In this case it would initiate the conversation with first
 responders. If you'd select that step, an event with the name *InformationAboutSituation* would be sent to the
 simulation.
 
@@ -166,11 +170,11 @@ CarCrashSelected". For our example that means adding:
 ```typescript
 export class SimulationEventsService {
 
-    private knownEvents: string[] = [
-        '...',
-        'CarCrashSelected',
-        'InformAboutSituation'
-    ];
+	private knownEvents: string[] = [
+		'...',
+		'CarCrashSelected',
+		'InformAboutSituation'
+	];
 
 }
 ```
