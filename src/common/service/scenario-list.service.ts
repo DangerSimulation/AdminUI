@@ -16,7 +16,7 @@ export class ScenarioListService {
 	constructor(private http: HttpClient, private electronService: ElectronService) {
 		const path = electronService.remote.require('path');
 
-		const sourcePath = environment.production ? path.join(electronService.remote.app.getAppPath(), 'dist') : path.join('..', '..');
+		const sourcePath = environment.production ? path.join(electronService.remote.app.getAppPath(), 'dist', 'de') : path.join('..', '..');
 
 		this.http.get<ScenarioList>(path.join(sourcePath, 'assets', 'simulation-scenarios.json')).subscribe(value => {
 			this.formatScenarioData(value);

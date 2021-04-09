@@ -2,8 +2,8 @@ import {ScenarioListService} from '../../../common/service/scenario-list.service
 import {Scenario, SimulationMessage} from '../../../common/shared/types';
 import {ScenarioService} from '../../../common/service/scenario.service';
 import {SimulationEventsService} from '../../../common/service/simulation-events.service';
-import {Component, OnInit} from "@angular/core";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
 	selector: 'app-scenario-select',

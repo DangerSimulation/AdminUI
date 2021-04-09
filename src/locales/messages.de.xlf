@@ -1,366 +1,471 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-    <file source-language="en-US" datatype="plaintext" original="ng2.template">
-        <body>
-            <trans-unit id="ngb.alert.close" datatype="html">
-                <source>Close</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/src/alert/alert.ts
-                    </context>
-                    <context context-type="linenumber">43,49</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.carousel.slide-number" datatype="html">
-                <source>Slide
-                    <x id="INTERPOLATION" equiv-text="ubject(false);
-"/>
-                    of
-                    <x id="INTERPOLATION_1" equiv-text="private _pauseO"/>
-                </source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/carousel/carousel.ts
-                    </context>
-                    <context context-type="linenumber">109,117</context>
-                </context-group>
-                <note priority="1" from="description">Currently selected slide number read by screen reader</note>
-            </trans-unit>
-            <trans-unit id="ngb.carousel.previous" datatype="html">
-                <source>Previous</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/carousel/carousel.ts
-                    </context>
-                    <context context-type="linenumber">130,134</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.carousel.next" datatype="html">
-                <source>Next</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/carousel/carousel.ts
-                    </context>
-                    <context context-type="linenumber">147,157</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.datepicker.select-month" datatype="html">
-                <source>Select month</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation-select.ts
-                    </context>
-                    <context context-type="linenumber">41,47</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation-select.ts
-                    </context>
-                    <context context-type="linenumber">48,53</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.datepicker.select-year" datatype="html">
-                <source>Select year</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation-select.ts
-                    </context>
-                    <context context-type="linenumber">62,65</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation-select.ts
-                    </context>
-                    <context context-type="linenumber">74</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.datepicker.previous-month" datatype="html">
-                <source>Previous month</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation.ts
-                    </context>
-                    <context context-type="linenumber">13,14</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation.ts
-                    </context>
-                    <context context-type="linenumber">22,27</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.datepicker.next-month" datatype="html">
-                <source>Next month</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation.ts
-                    </context>
-                    <context context-type="linenumber">47,52</context>
-                </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation.ts
-                    </context>
-                    <context context-type="linenumber">61,69</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.pagination.first" datatype="html">
-                <source>««</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
-                    </context>
-                    <context context-type="linenumber">158,160</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.pagination.previous" datatype="html">
-                <source>«</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
-                    </context>
-                    <context context-type="linenumber">166,167</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.pagination.next" datatype="html">
-                <source>»</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
-                    </context>
-                    <context context-type="linenumber">172,173</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.pagination.last" datatype="html">
-                <source>»»</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
-                    </context>
-                    <context context-type="linenumber">179,182</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.pagination.first-aria" datatype="html">
-                <source>First</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
-                    </context>
-                    <context context-type="linenumber">186,190</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.pagination.previous-aria" datatype="html">
-                <source>Previous</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
-                    </context>
-                    <context context-type="linenumber">194,196</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.pagination.next-aria" datatype="html">
-                <source>Next</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
-                    </context>
-                    <context context-type="linenumber">228,230</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.pagination.last-aria" datatype="html">
-                <source>Last</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
-                    </context>
-                    <context context-type="linenumber">233,239</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.progressbar.value" datatype="html">
-                <source>
-                    <x id="INTERPOLATION" equiv-text="ber { return th"/>
-                </source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/progressbar/progressbar.ts
-                    </context>
-                    <context context-type="linenumber">27,35</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.timepicker.HH" datatype="html">
-                <source>HH</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
-                    </context>
-                    <context context-type="linenumber">40,42</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.timepicker.hours" datatype="html">
-                <source>Hours</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
-                    </context>
-                    <context context-type="linenumber">46,48</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.timepicker.MM" datatype="html">
-                <source>MM</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
-                    </context>
-                    <context context-type="linenumber">54,56</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.timepicker.minutes" datatype="html">
-                <source>Minutes</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
-                    </context>
-                    <context context-type="linenumber">60,62</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.timepicker.increment-hours" datatype="html">
-                <source>Increment hours</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
-                    </context>
-                    <context context-type="linenumber">66,68</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.timepicker.decrement-hours" datatype="html">
-                <source>Decrement hours</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
-                    </context>
-                    <context context-type="linenumber">74,76</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.timepicker.increment-minutes" datatype="html">
-                <source>Increment minutes</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
-                    </context>
-                    <context context-type="linenumber">82,83</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.timepicker.decrement-minutes" datatype="html">
-                <source>Decrement minutes</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
-                    </context>
-                    <context context-type="linenumber">87,89</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.timepicker.SS" datatype="html">
-                <source>SS</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
-                    </context>
-                    <context context-type="linenumber">93,97</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.timepicker.seconds" datatype="html">
-                <source>Seconds</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
-                    </context>
-                    <context context-type="linenumber">102,103</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.timepicker.decrement-seconds" datatype="html">
-                <source>Decrement seconds</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
-                    </context>
-                    <context context-type="linenumber">109,113</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.timepicker.PM" datatype="html">
-                <source>
-                    <x id="INTERPOLATION" equiv-text=";
+	<file source-language="en-US" datatype="plaintext" original="ng2.template">
+		<body>
+			<trans-unit id="ngb.alert.close" datatype="html">
+				<source>Close</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/src/alert/alert.ts
+					</context>
+					<context context-type="linenumber">43,49</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.carousel.slide-number" datatype="html">
+				<source>
+					Slide
+					<x id="INTERPOLATION" equiv-text="vate _pauseOnHo"/>
+					of
+					<x id="INTERPOLATION_1" equiv-text="r$ = new Behavi"/>
+				</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/carousel/carousel.ts
+					</context>
+					<context context-type="linenumber">109,117</context>
+				</context-group>
+				<note priority="1" from="description">Currently selected slide number read by screen reader</note>
+			</trans-unit>
+			<trans-unit id="ngb.carousel.previous" datatype="html">
+				<source>Previous</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/carousel/carousel.ts
+					</context>
+					<context context-type="linenumber">130,137</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.carousel.next" datatype="html">
+				<source>Next</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/carousel/carousel.ts
+					</context>
+					<context context-type="linenumber">149,157</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.datepicker.select-month" datatype="html">
+				<source>Select month</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation-select.ts
+					</context>
+					<context context-type="linenumber">41,47</context>
+				</context-group>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation-select.ts
+					</context>
+					<context context-type="linenumber">48,53</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.datepicker.select-year" datatype="html">
+				<source>Select year</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation-select.ts
+					</context>
+					<context context-type="linenumber">62,65</context>
+				</context-group>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation-select.ts
+					</context>
+					<context context-type="linenumber">74</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.datepicker.previous-month" datatype="html">
+				<source>Previous month</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation.ts
+					</context>
+					<context context-type="linenumber">13,14</context>
+				</context-group>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation.ts
+					</context>
+					<context context-type="linenumber">22,27</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.datepicker.next-month" datatype="html">
+				<source>Next month</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation.ts
+					</context>
+					<context context-type="linenumber">47,52</context>
+				</context-group>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/datepicker/datepicker-navigation.ts
+					</context>
+					<context context-type="linenumber">61,69</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.pagination.first" datatype="html">
+				<source>««</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
+					</context>
+					<context context-type="linenumber">158,160</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.pagination.previous" datatype="html">
+				<source>«</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
+					</context>
+					<context context-type="linenumber">166,167</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.pagination.next" datatype="html">
+				<source>»</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
+					</context>
+					<context context-type="linenumber">172,173</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.pagination.last" datatype="html">
+				<source>»»</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
+					</context>
+					<context context-type="linenumber">179,182</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.pagination.first-aria" datatype="html">
+				<source>First</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
+					</context>
+					<context context-type="linenumber">186,190</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.pagination.previous-aria" datatype="html">
+				<source>Previous</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
+					</context>
+					<context context-type="linenumber">194,196</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.pagination.next-aria" datatype="html">
+				<source>Next</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
+					</context>
+					<context context-type="linenumber">228,230</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.pagination.last-aria" datatype="html">
+				<source>Last</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/pagination/pagination.ts
+					</context>
+					<context context-type="linenumber">233,239</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.progressbar.value" datatype="html">
+				<source>
+					<x id="INTERPOLATION" equiv-text="ber { return th"/>
+				</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/progressbar/progressbar.ts
+					</context>
+					<context context-type="linenumber">27,35</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.timepicker.HH" datatype="html">
+				<source>HH</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
+					</context>
+					<context context-type="linenumber">40,42</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.timepicker.hours" datatype="html">
+				<source>Hours</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
+					</context>
+					<context context-type="linenumber">46,48</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.timepicker.MM" datatype="html">
+				<source>MM</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
+					</context>
+					<context context-type="linenumber">54,56</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.timepicker.minutes" datatype="html">
+				<source>Minutes</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
+					</context>
+					<context context-type="linenumber">60,62</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.timepicker.increment-hours" datatype="html">
+				<source>Increment hours</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
+					</context>
+					<context context-type="linenumber">66,68</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.timepicker.decrement-hours" datatype="html">
+				<source>Decrement hours</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
+					</context>
+					<context context-type="linenumber">74,76</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.timepicker.increment-minutes" datatype="html">
+				<source>Increment minutes</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
+					</context>
+					<context context-type="linenumber">82,83</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.timepicker.decrement-minutes" datatype="html">
+				<source>Decrement minutes</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
+					</context>
+					<context context-type="linenumber">87,89</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.timepicker.SS" datatype="html">
+				<source>SS</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
+					</context>
+					<context context-type="linenumber">93,97</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.timepicker.seconds" datatype="html">
+				<source>Seconds</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
+					</context>
+					<context context-type="linenumber">102,103</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.timepicker.decrement-seconds" datatype="html">
+				<source>Decrement seconds</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
+					</context>
+					<context context-type="linenumber">109,113</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.timepicker.PM" datatype="html">
+				<source>
+					<x id="INTERPOLATION" equiv-text=";
   private _mi"/>
-                </source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
-                    </context>
-                    <context context-type="linenumber">111,119</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.timepicker.AM" datatype="html">
-                <source>
-                    <x id="INTERPOLATION" equiv-text="olean;
+				</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
+					</context>
+					<context context-type="linenumber">111,119</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.timepicker.AM" datatype="html">
+				<source>
+					<x id="INTERPOLATION" equiv-text="olean;
 
-  /**
- "/>
-                </source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
-                    </context>
-                    <context context-type="linenumber">116,128</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.timepicker.increment-seconds" datatype="html">
-                <source>Increment seconds</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">
-                        node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
-                    </context>
-                    <context context-type="linenumber">118,128</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="ngb.toast.close-aria" datatype="html">
-                <source>Close</source>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/src/toast/toast.ts
-                    </context>
-                    <context context-type="linenumber">70,76</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="2626fa5c5d6bec9058ee168b02de488c553d79b9" datatype="html">
-                <source>Use this scenario</source>
-                <target>Nutze dieses Szenario</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/pages/scenario-select/scenario-select.component.html
-                    </context>
-                    <context context-type="linenumber">24</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="56cdf1aa4e1cfb699a79939b9126222a098b8f0d" datatype="html">
-                <source>Select the scenario you&apos;d like to use</source>
-                <target>Wähle das Szenario aus, dass verwendet werden soll</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/pages/scenario-select/scenario-select.component.ts
-                    </context>
-                    <context context-type="linenumber">19</context>
-                </context-group>
-            </trans-unit>
-            <trans-unit id="5fb7a8b9745655471a7ef96fd1c300488c64b9b4" datatype="html">
-                <source>This scenario has
-                    <x id="INTERPOLATION" equiv-text="{{scenario.steps.length}}"/>
-                    steps
-                </source>
-                <target>Dieses Szenario hat
-                    <x id="INTERPOLATION" equiv-text="{{scenario.steps.length}}"/>
-                    Stufen
-                </target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/pages/scenario-select/scenario-select.component.ts
-                    </context>
-                    <context context-type="linenumber">19</context>
-                </context-group>
-            </trans-unit>
-        </body>
-    </file>
+  /**"/>
+				</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
+					</context>
+					<context context-type="linenumber">116,128</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.timepicker.increment-seconds" datatype="html">
+				<source>Increment seconds</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">
+						node_modules/@ng-bootstrap/ng-bootstrap/src/timepicker/timepicker.ts
+					</context>
+					<context context-type="linenumber">118,128</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="ngb.toast.close-aria" datatype="html">
+				<source>Close</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">node_modules/@ng-bootstrap/ng-bootstrap/src/toast/toast.ts
+					</context>
+					<context context-type="linenumber">70,76</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="536d8c225ffc348ba10a1a7b33952d7eb493fb31" datatype="html">
+				<source>
+					Current step:
+				</source>
+				<target>
+					Derzeitiger Schritt:
+				</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
+					</context>
+					<context context-type="linenumber">20,30</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="6ad6121240cf48f8a6109d17803d7981ae5026f8" datatype="html">
+				<source>
+					Possible next steps
+				</source>
+				<target>
+					Mögliche nächste Schritte
+				</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
+					</context>
+					<context context-type="linenumber">42,46</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="9ca82952a6bc860b5391d5975322d8af8ceddfa4" datatype="html">
+				<source>Select</source>
+				<target>Auswählen</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
+					</context>
+					<context context-type="linenumber">46</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="e746b6cf94f402022d5382ec18ee200ee08320ee" datatype="html">
+				<source>
+					Selecting this step triggers the following action:
+				</source>
+				<target>
+					Die Auswahl führt folgende Aktion aus:
+				</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
+					</context>
+					<context context-type="linenumber">46</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="19c7d13d4d112b611b69a996ebc4ec81037a5a31" datatype="html">
+				<source>
+					Using scenario
+					<x id="INTERPOLATION" equiv-text="{{this.scenarioService.scenario.name}}"/>
+				</source>
+				<target>
+					Derzeitiges Szenario
+					<x id="INTERPOLATION" equiv-text="{{this.scenarioService.scenario.name}}"/>
+				</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.ts
+					</context>
+					<context context-type="linenumber">27</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="2b3ec7534e37946969dbb7102472555b5a9f0da2" datatype="html">
+				<source>Use this scenario
+				</source>
+				<target>Nutz dieses Szenario
+				</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/app/pages/scenario-select/scenario-select.component.html
+					</context>
+					<context context-type="linenumber">28</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="56cdf1aa4e1cfb699a79939b9126222a098b8f0d" datatype="html">
+				<source>
+					Select the scenario you&apos;d like to use
+				</source>
+				<target>
+					Wähle das Szenario aus, dass verwendet werden soll
+				</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/app/pages/scenario-select/scenario-select.component.ts
+					</context>
+					<context context-type="linenumber">28,39</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="bc8cfb58f27f32b7de08c4f00e3c5bf990243cc7" datatype="html">
+				<source>
+					This scenario has
+					<x id="INTERPOLATION" equiv-text="{{scenario.steps.length}}"/>
+					steps
+				</source>
+				<target>
+					Dieses Szenario hat
+					<x id="INTERPOLATION" equiv-text="{{scenario.steps.length}}"/>
+					Schritte
+				</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/app/pages/scenario-select/scenario-select.component.ts
+					</context>
+					<context context-type="linenumber">39</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="68e710782ccb5398b3acb8844caf0b199da2c3da" datatype="html">
+				<source>Confirm</source>
+				<target>Bestätigen</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/common/dialog/scenario-reset/scenario-reset.component.html
+					</context>
+					<context context-type="linenumber">14</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="d7b35c384aecd25a516200d6921836374613dfe7" datatype="html">
+				<source>Cancel</source>
+				<target>Abbrechen</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/common/dialog/scenario-reset/scenario-reset.component.html
+					</context>
+					<context context-type="linenumber">14</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="5f8e0efb929be53135262df1b1b657cf3caa43fa" datatype="html">
+				<source>
+					Do you really want to return to the scenario selection ?
+					<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
+					This resets the current scenario
+				</source>
+				<target>
+					Willst du wirklich zur Szenarioauswahl zurückkehren ?
+					<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
+					Das setzt das derzeitig ausgewählte Szenario zurück
+				</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/common/dialog/scenario-reset/scenario-reset.component.ts
+					</context>
+					<context context-type="linenumber">25</context>
+				</context-group>
+			</trans-unit>
+		</body>
+	</file>
 </xliff>

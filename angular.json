@@ -3,14 +3,29 @@
 	"version": 1,
 	"newProjectRoot": "projects",
 	"projects": {
-		"angular-electron": {
+		"AdminUI": {
 			"root": "",
 			"sourceRoot": "src",
 			"projectType": "application",
+			"i18n": {
+				"sourceLocale": "en-US",
+				"locales": {
+					"de": {
+						"baseHref": "",
+						"translation": "src/locales/messages.de.xlf"
+					},
+					"en": {
+						"baseHref": "",
+						"translation": "src/locales/messages.en.xlf"
+					}
+				}
+			},
 			"architect": {
 				"build": {
 					"builder": "@angular-builders/custom-webpack:browser",
 					"options": {
+						"localize": true,
+						"aot": true,
 						"outputPath": "dist",
 						"index": "src/index.html",
 						"main": "src/main.ts",
@@ -31,6 +46,9 @@
 					},
 					"configurations": {
 						"dev": {
+							"localize": [
+								"de"
+							],
 							"optimization": false,
 							"outputHashing": "all",
 							"sourceMap": true,
@@ -47,11 +65,14 @@
 							]
 						},
 						"web": {
+							"localize": [
+								"de"
+							],
 							"optimization": false,
 							"outputHashing": "all",
 							"sourceMap": true,
 							"namedChunks": false,
-							"aot": false,
+							"aot": true,
 							"extractLicenses": true,
 							"vendorChunk": false,
 							"buildOptimizer": false,
@@ -63,6 +84,9 @@
 							]
 						},
 						"production": {
+							"localize": [
+								"de"
+							],
 							"optimization": true,
 							"outputHashing": "all",
 							"sourceMap": false,
@@ -83,30 +107,30 @@
 				"serve": {
 					"builder": "@angular-builders/custom-webpack:dev-server",
 					"options": {
-						"browserTarget": "angular-electron:build"
+						"browserTarget": "AdminUI:build"
 					},
 					"configurations": {
 						"dev": {
-							"browserTarget": "angular-electron:build:dev"
+							"browserTarget": "AdminUI:build:dev"
 						},
 						"web": {
-							"browserTarget": "angular-electron:build:web"
+							"browserTarget": "AdminUI:build:web"
 						},
 						"production": {
-							"browserTarget": "angular-electron:build:production"
+							"browserTarget": "AdminUI:build:production"
 						}
 					}
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
 					"options": {
-						"browserTarget": "angular-electron:build"
+						"browserTarget": "AdminUI:build"
 					}
 				}
 			}
 		}
 	},
-	"defaultProject": "admin-ui",
+	"defaultProject": "AdminUI",
 	"schematics": {
 		"@schematics/angular:component": {
 			"prefix": "app",

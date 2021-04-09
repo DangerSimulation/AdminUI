@@ -36,7 +36,7 @@ function createWindow() {
     }
     else {
         win.loadURL(url.format({
-            pathname: path.join(__dirname, 'dist/index.html'),
+            pathname: path.join(__dirname, 'dist/de/index.html'),
             protocol: 'file:',
             slashes: true
         }));
@@ -70,10 +70,6 @@ try {
         if (win === null) {
             createWindow();
         }
-    });
-    electron_1.ipcMain.on('ping', function (event, args) {
-        event.sender.send('pong', 'pong');
-        console.log(args);
     });
 }
 catch (e) {
