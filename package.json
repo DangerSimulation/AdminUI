@@ -67,9 +67,6 @@
 		"webdriver-manager": "12.1.8",
 		"zone.js": "0.10.3"
 	},
-	"engines": {
-		"node": ">=10.13.0"
-	},
 	"browserslist": [
 		"chrome 83"
 	]

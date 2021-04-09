@@ -14,10 +14,19 @@ jobs:
                     ref: "main"
             -   uses: "actions/setup-node@master"
                 with:
-                    node-version: 10.13.0
+                    node-version: 15.10.0
             -   name: "Install dependencies"
                 run: "npm install"
             -   name: "Build"
                 run: "npm run electron:build"
-            -   name: "ls"
-                run: "cd releases && ls"
+            -   name: "Archive Release"
+                uses: "thedoctor0/zip-release@master"
+                with:
+                    filename: 'windows.zip'
+                    path: "./release"
+            -   uses: "marvinpinto/action-automatic-releases@latest"
+                with:
+                    repo_token: "${{ secrets.GITHUB_TOKEN }}"
+                    prerelease: false
+                    files: |
+                        windows.zip
