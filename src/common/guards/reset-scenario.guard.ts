@@ -4,9 +4,9 @@ import {ScenarioResetComponent} from '../dialog/scenario-reset/scenario-reset.co
 import {ScenarioService} from '../service/scenario.service';
 import {SimulationMessage, SystemUpdateMessage} from '../shared/types';
 import {SimulationEventsService} from '../service/simulation-events.service';
-import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, UrlTree} from "@angular/router";
-import {Observable} from "rxjs";
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {Observable} from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -24,7 +24,7 @@ export class ResetScenarioGuard implements CanDeactivate<ScenarioControlComponen
 		currentState: RouterStateSnapshot,
 		nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-		if (this.scenarioService.currentStep === undefined) {
+		if (this.scenarioService.currentStep === undefined || this.scenarioService.isDone) {
 			return true;
 		}
 

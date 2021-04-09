@@ -4,27 +4,32 @@ import {NbToastrService} from '@nebular/theme';
 import {SimulationMessage} from '../shared/types';
 
 @Injectable({
-    providedIn: 'root'
+	providedIn: 'root'
 })
 export class SimulationEventsService {
 
-    private knownEvents: string[] = [
-        'DrowningMan',
-        'StrandSelected',
-        'ScenarioCancel'
-    ];
+	private knownEvents: string[] = [
+		'DrowningMan',
+		'StrandSelected',
+		'ScenarioCancel',
+		'ScenarioComplete',
+		'Rain',
+		'BlueSky',
+		'Cloudy',
+		'ShowDrowningMan'
+	];
 
-    constructor(private messageService: MessageService, private toasterService: NbToastrService) {
-    }
+	constructor(private messageService: MessageService, private toasterService: NbToastrService) {
+	}
 
-    public sendSimulationEvent(message: SimulationMessage<unknown>, event: string): void {
-        if (this.knownEvents.includes(event)) {
-            this.messageService.sendMessage(message);
-        } else {
-            const errMessage = `Unknown event ${event}. Check the simulation-scenario.json or add ${event} to the known events.`;
-            this.toasterService.danger(errMessage, 'Event error');
-            console.error(`Unknown event ${event}. Check the simulation-scenario.json or add ${event} to the known events.`);
-        }
-    }
+	public sendSimulationEvent(message: SimulationMessage<unknown>, event: string): void {
+		if (this.knownEvents.includes(event)) {
+			this.messageService.sendMessage(message);
+		} else {
+			const errMessage = `Unknown event ${event}. Check the simulation-scenario.json or add ${event} to the known events.`;
+			this.toasterService.danger(errMessage, 'Event error');
+			console.error(`Unknown event ${event}. Check the simulation-scenario.json or add ${event} to the known events.`);
+		}
+	}
 
 }

@@ -1,7 +1,10 @@
 import {ScenarioService} from '../../../common/service/scenario.service';
 import {Step} from '../../../common/shared/types';
-import {Component, OnInit} from "@angular/core";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {ScenarioResetComponent} from '../../../common/dialog/scenario-reset/scenario-reset.component';
+import {NbDialogService} from '@nebular/theme';
 
 @Component({
 	selector: 'app-scenario-control',
@@ -10,7 +13,7 @@ import {Router} from "@angular/router";
 })
 export class ScenarioControlComponent implements OnInit {
 
-	constructor(public readonly scenarioService: ScenarioService, private router: Router) {
+	constructor(public readonly scenarioService: ScenarioService, private router: Router, private dialogService: NbDialogService) {
 	}
 
 	ngOnInit(): void {
@@ -20,7 +23,32 @@ export class ScenarioControlComponent implements OnInit {
 	}
 
 	onSelectClick(step: Step): void {
-		this.scenarioService.updateSelectedStep(step);
+		switch (step.initiator.event) {
+			case 'ScenarioComplete':
+				this.getConfirmation().subscribe(value => {
+					if (value) {
+						this.scenarioService.updateSelectedStep(step);
+					}
+				});
+				break;
+			default:
+				this.scenarioService.updateSelectedStep(step);
+				break;
+		}
+	}
+
+	private getConfirmation(): Observable<boolean> {
+		return new Observable<boolean>(subscriber => {
+			this.dialogService.open(ScenarioResetComponent, {
+				closeOnBackdropClick: false,
+				closeOnEsc: false
+			}).onClose.subscribe(arg => {
+				this.scenarioService.isDone = arg;
+
+				subscriber.next(arg);
+				subscriber.complete();
+			});
+		});
 	}
 
 }
