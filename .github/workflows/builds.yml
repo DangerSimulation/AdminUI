@@ -12,6 +12,9 @@ jobs:
             -   uses: "actions/checkout@master"
                 with:
                     ref: "main"
+            -   name: Get version
+                run: |
+                    echo ("VERSION=" + (Get-Content -Raw -Path package.json | ConvertFrom-Json).version) >> $env:GITHUB_ENV
             -   uses: "actions/setup-node@master"
                 with:
                     node-version: 15.10.0
@@ -25,5 +28,6 @@ jobs:
                 with:
                     repo_token: "${{ secrets.GITHUB_TOKEN }}"
                     prerelease: false
+                    automatic_release_tag: "v$env:VERSION"
                     files: |
                         windows.zip
