@@ -327,20 +327,20 @@
 					<context context-type="linenumber">70,76</context>
 				</context-group>
 			</trans-unit>
-			<trans-unit id="536d8c225ffc348ba10a1a7b33952d7eb493fb31" datatype="html">
+			<trans-unit id="6ebf48e225aee463499ab17a2866e06132334244" datatype="html">
 				<source>
 					Current step:
 				</source>
 				<target>
-					Derzeitiger Schritt:
+					Ausgewählter Schritt:
 				</target>
 				<context-group purpose="location">
 					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
 					</context>
-					<context context-type="linenumber">20,30</context>
+					<context context-type="linenumber">24,30</context>
 				</context-group>
 			</trans-unit>
-			<trans-unit id="6ad6121240cf48f8a6109d17803d7981ae5026f8" datatype="html">
+			<trans-unit id="d33597e2c2e16266e05b30660c7b2d534ce275bb" datatype="html">
 				<source>
 					Possible next steps
 				</source>
@@ -350,7 +350,7 @@
 				<context-group purpose="location">
 					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
 					</context>
-					<context context-type="linenumber">42,46</context>
+					<context context-type="linenumber">47</context>
 				</context-group>
 			</trans-unit>
 			<trans-unit id="9ca82952a6bc860b5391d5975322d8af8ceddfa4" datatype="html">
@@ -359,41 +359,41 @@
 				<context-group purpose="location">
 					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
 					</context>
-					<context context-type="linenumber">46</context>
+					<context context-type="linenumber">47</context>
 				</context-group>
 			</trans-unit>
-			<trans-unit id="e746b6cf94f402022d5382ec18ee200ee08320ee" datatype="html">
+			<trans-unit id="91d10c1657e328ef638a92a987c257b92b2d78e3" datatype="html">
 				<source>
 					Selecting this step triggers the following action:
 				</source>
 				<target>
-					Die Auswahl führt folgende Aktion aus:
+					Die Auswahl dieses Schrittes startet die folgende Aktion:
 				</target>
 				<context-group purpose="location">
 					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
 					</context>
-					<context context-type="linenumber">46</context>
+					<context context-type="linenumber">47</context>
 				</context-group>
 			</trans-unit>
-			<trans-unit id="19c7d13d4d112b611b69a996ebc4ec81037a5a31" datatype="html">
+			<trans-unit id="fd03781710c60af1902b9d820b9879085c885a51" datatype="html">
 				<source>
 					Using scenario
 					<x id="INTERPOLATION" equiv-text="{{this.scenarioService.scenario.name}}"/>
 				</source>
 				<target>
-					Derzeitiges Szenario
 					<x id="INTERPOLATION" equiv-text="{{this.scenarioService.scenario.name}}"/>
+					wird verwendet
 				</target>
 				<context-group purpose="location">
 					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.ts
 					</context>
-					<context context-type="linenumber">27</context>
+					<context context-type="linenumber">35</context>
 				</context-group>
 			</trans-unit>
 			<trans-unit id="2b3ec7534e37946969dbb7102472555b5a9f0da2" datatype="html">
 				<source>Use this scenario
 				</source>
-				<target>Nutz dieses Szenario
+				<target>Verwende dieses Szenario
 				</target>
 				<context-group purpose="location">
 					<context context-type="sourcefile">src/app/pages/scenario-select/scenario-select.component.html
@@ -458,7 +458,7 @@
 				<target>
 					Willst du wirklich zur Szenarioauswahl zurückkehren ?
 					<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
-					Das setzt das derzeitig ausgewählte Szenario zurück
+					Dadurch geht aller Fortschritt verloren
 				</target>
 				<context-group purpose="location">
 					<context context-type="sourcefile">src/common/dialog/scenario-reset/scenario-reset.component.ts

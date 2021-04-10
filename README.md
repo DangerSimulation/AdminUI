@@ -9,6 +9,7 @@ feed of Simulation and has a side panel to control events inside Simulation.
 3. [Tech stack](#tech-stack)
 4. [Connection flow](#connection-flow)
 5. [How to extend](#how-to-extend)
+6. [Internationalization](#internationalization)
 
 ## Installation
 
@@ -17,6 +18,7 @@ For the development version simply type `npm start` into your favorite shell.
 If you'd want to create a new release, simply use the npm script `electron:build`.
 
 All other releases are available on the releases tab on [Github](https://github.com/DangerSimulation/AdminUI/releases).
+Each commit on `main` creates a new release.
 
 ## Requirements
 
@@ -181,3 +183,10 @@ export class SimulationEventsService {
 
 This is the part done for the AdminUI. New events have to be implemented in the simulation as well. Refer
 to [this](https://github.com/DangerSimulation/Simulation).
+
+### Internationalization
+
+We use `@angular/localization` for internationalization. To create a translation file run the npm
+script `npm run localization`. This creates a file for [german](./src/locales/messages.de.xlf). Edit the file to provide
+translations, follow [this](https://angular.io/guide/i18n#translate-each-translation-file) tutorial.
+
