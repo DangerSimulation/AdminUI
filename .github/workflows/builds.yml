@@ -7,7 +7,7 @@ on:
 
 jobs:
     release:
-        runs-on: "windows-latest"
+        runs-on: "windows-2019"
         steps:
             -   uses: "actions/checkout@master"
                 with:
@@ -28,6 +28,6 @@ jobs:
                 with:
                     repo_token: "${{ secrets.GITHUB_TOKEN }}"
                     prerelease: false
-                    automatic_release_tag: "v$env:VERSION"
+                    automatic_release_tag: "v${{ env.VERSION }}"
                     files: |
                         windows.zip
