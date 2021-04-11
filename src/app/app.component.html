@@ -1,17 +1,19 @@
 <nb-layout>
 
-    <nb-layout-header fixed>
-        <button [routerLink]="['/']" class="mr-4" nbButton>
-            <nb-icon [icon]="'home-outline'"></nb-icon>
-        </button>
+	<nb-layout-header fixed>
+		<button [routerLink]="['/']" class="mr-4" nbButton>
+			<nb-icon [icon]="'home-outline'"></nb-icon>
+		</button>
 
-        Admin UI DangerSim
-    </nb-layout-header>
+		Admin UI DangerSim
+	</nb-layout-header>
 
-    <nb-layout-column class="leftColumn">
-        <router-outlet></router-outlet>
-    </nb-layout-column>
-    <nb-layout-column>
-        <app-video-display></app-video-display>
-    </nb-layout-column>
+	<nb-layout-column [style.flex]="leftColumnFlex">
+		<router-outlet></router-outlet>
+	</nb-layout-column>
+	<nb-layout-column (dragstart)="onDragStart()" (drop)="onDrop()" (mousedown)="startResize()"
+					  class="vline"></nb-layout-column>
+	<nb-layout-column>
+		<app-video-display></app-video-display>
+	</nb-layout-column>
 </nb-layout>

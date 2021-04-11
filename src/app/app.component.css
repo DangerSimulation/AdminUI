@@ -1,3 +1,10 @@
-.leftColumn {
-	flex: 0.3 !important;
+.vline {
+	flex: 0.001 !important;
+	border-left: 5px solid white;
+	height: 100%;
+	padding: 0 !important;
+}
+
+.vline:hover {
+	cursor: col-resize;
 }
