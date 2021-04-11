@@ -456,7 +456,7 @@
 					This resets the current scenario
 				</source>
 				<target>
-					Willst du wirklich zur Szenarioauswahl zurückkehren ?
+					Wirklich zur Szenarienauswahl zurückkehren ?
 					<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
 					Dadurch geht aller Fortschritt verloren
 				</target>
