@@ -25,15 +25,39 @@ export interface Scenario {
 
 export interface Step {
 	id: string,
-	unique: boolean,
 	description: string,
-	initiator: Initiator | null,
+	unique: boolean,
+	alwaysAvailable: boolean,
+	type: 'initiator' | 'select' | 'input' | 'info'
+	eventName: string,
+	eventInfo: Initiator | SelectData | InputData | null,
 	next: string[]
+}
+
+export interface InputData {
+	inputValue: string,
+	validator: string,
+	validatorHint: string,
+	isValid: boolean
+}
+
+export interface SelectData {
+	selectionData: string,
+	options: SelectOption[]
+}
+
+export interface SelectOption {
+	key: string,
+	description: string,
 }
 
 export interface Initiator {
 	description: string,
-	event: string
+}
+
+export interface ScenarioEventWithData<T> {
+	event: string,
+	additionalData: T
 }
 
 export interface SimulationMessage<T> {

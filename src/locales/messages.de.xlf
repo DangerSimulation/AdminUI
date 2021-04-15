@@ -350,19 +350,33 @@
 				<context-group purpose="location">
 					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
 					</context>
-					<context context-type="linenumber">47</context>
+					<context context-type="linenumber">43,48</context>
 				</context-group>
 			</trans-unit>
-			<trans-unit id="9ca82952a6bc860b5391d5975322d8af8ceddfa4" datatype="html">
-				<source>Select</source>
+			<trans-unit id="d499c0982c9ae24da86f2820bb24eaa4220e6c6b" datatype="html">
+				<source>Select
+				</source>
 				<target>Auswählen</target>
 				<context-group purpose="location">
 					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
 					</context>
-					<context context-type="linenumber">47</context>
+					<context context-type="linenumber">58,62</context>
 				</context-group>
 			</trans-unit>
-			<trans-unit id="91d10c1657e328ef638a92a987c257b92b2d78e3" datatype="html">
+			<trans-unit id="c372a273562d06f8a9661c72a017034519f118f7" datatype="html">
+				<source>
+					Enter the value you want to use
+				</source>
+				<target>
+					Trage den zu verwendenden Wert ein
+				</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
+					</context>
+					<context context-type="linenumber">61,74</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="396f597ff7d9b29bfa79cb550af9dcd6d6494b3d" datatype="html">
 				<source>
 					Selecting this step triggers the following action:
 				</source>
@@ -372,7 +386,67 @@
 				<context-group purpose="location">
 					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
 					</context>
-					<context context-type="linenumber">47</context>
+					<context context-type="linenumber">74</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="1c31af3b6884f073365bfdb28f8436d0ab7d34e3" datatype="html">
+				<source>Enter a value</source>
+				<target>Trage einen Wert ein</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
+					</context>
+					<context context-type="linenumber">74</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="e9712c2fa74cd163c01ef3e41a3871d945bbd1ba" datatype="html">
+				<source>
+					Select the options you want to use
+				</source>
+				<target>
+					Wähle die Option aus, die verwendet werden soll
+				</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
+					</context>
+					<context context-type="linenumber">74</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="63ac4e964debdc9d44d514ba50f9575e2b6ca67b" datatype="html">
+				<source>
+					The value must match the pattern:
+					<x id="INTERPOLATION" equiv-text="{{(step.eventInfo | inputConverter).validatorHint}}"/>
+				</source>
+				<target>
+					Der Wert muss folgendem Muster entsprechen:
+					<x id="INTERPOLATION" equiv-text="{{(step.eventInfo | inputConverter).validatorHint}}"/>
+				</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
+					</context>
+					<context context-type="linenumber">74,62</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="8ae1473a58b0516525110527a1668cb030672154" datatype="html">
+				<source>A selection is required</source>
+				<target>Eine Auswahl ist notwendig</target>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
+					</context>
+					<context context-type="linenumber">74</context>
+				</context-group>
+			</trans-unit>
+			<trans-unit id="8fb83a65dc1dcd7600dc42dd4304f6da8603b990" datatype="html">
+				<source>
+					<x id="START_TAG_NB_OPTION" ctype="x-nb_option"
+					   equiv-text="&lt;nb-option *ngFor=&quot;let option of (step.eventInfo | selectConverter).options&quot;
+							   [value]=&quot;option.key&quot;&gt;"/>
+					<x id="INTERPOLATION" equiv-text="{{option.description}}"/>
+					<x id="CLOSE_TAG_NB_OPTION" ctype="x-nb_option" equiv-text="&lt;/nb-option&gt;"/>
+				</source>
+				<context-group purpose="location">
+					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.html
+					</context>
+					<context context-type="linenumber">74,50</context>
 				</context-group>
 			</trans-unit>
 			<trans-unit id="fd03781710c60af1902b9d820b9879085c885a51" datatype="html">
@@ -387,7 +461,7 @@
 				<context-group purpose="location">
 					<context context-type="sourcefile">src/app/pages/scenario-control/scenario-control.component.ts
 					</context>
-					<context context-type="linenumber">35</context>
+					<context context-type="linenumber">34</context>
 				</context-group>
 			</trans-unit>
 			<trans-unit id="2b3ec7534e37946969dbb7102472555b5a9f0da2" datatype="html">

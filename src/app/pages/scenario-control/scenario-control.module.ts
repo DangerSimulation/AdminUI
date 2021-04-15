@@ -1,7 +1,9 @@
 import {ScenarioControlComponent} from './scenario-control.component';
-import {NbButtonModule, NbCardModule, NbIconModule} from '@nebular/theme';
-import {CommonModule} from "@angular/common";
-import {NgModule} from "@angular/core";
+import {NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbSelectModule} from '@nebular/theme';
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {PipesModule} from '../../../common/pipes/pipes.module';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -10,7 +12,11 @@ import {NgModule} from "@angular/core";
 		CommonModule,
 		NbCardModule,
 		NbIconModule,
-		NbButtonModule
+		NbButtonModule,
+		PipesModule,
+		NbSelectModule,
+		NbInputModule,
+		FormsModule
 	]
 })
 export class ScenarioControlModule {

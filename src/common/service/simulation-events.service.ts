@@ -13,9 +13,8 @@ export class SimulationEventsService {
 		'StrandSelected',
 		'ScenarioCancel',
 		'ScenarioComplete',
-		'Rain',
-		'BlueSky',
-		'Cloudy',
+		'WeatherChange',
+		'TimeChange',
 		'ShowDrowningMan'
 	];
 

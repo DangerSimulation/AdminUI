@@ -1,5 +1,5 @@
 import {ScenarioService} from '../../../common/service/scenario.service';
-import {Step} from '../../../common/shared/types';
+import {InputData, SelectData, Step} from '../../../common/shared/types';
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
@@ -13,7 +13,10 @@ import {NbDialogService} from '@nebular/theme';
 })
 export class ScenarioControlComponent implements OnInit {
 
-	constructor(public readonly scenarioService: ScenarioService, private router: Router, private dialogService: NbDialogService) {
+	public eventValues: Map<string, string> = new Map<string, string>();
+
+	constructor(public readonly scenarioService: ScenarioService, private router: Router,
+				private dialogService: NbDialogService) {
 	}
 
 	ngOnInit(): void {
@@ -22,8 +25,35 @@ export class ScenarioControlComponent implements OnInit {
 		}
 	}
 
+	public checkValue(inputData: InputData, value: string) {
+		inputData.isValid = new RegExp(inputData.validator).test(value);
+	}
+
+	public calculateDisabledState(step: Step): boolean {
+		switch (step.type) {
+			case 'select':
+				return !this.eventValues.has(step.id);
+			case 'input':
+				return !(step.eventInfo as InputData).isValid;
+			default:
+				return false;
+		}
+	}
+
+	public onValueChange(step: Step, selectedValue: any) {
+		this.eventValues.set(step.id, selectedValue);
+
+		switch (step.type) {
+			case 'select':
+				(step.eventInfo as SelectData).selectionData = selectedValue;
+				break;
+			case 'input':
+				(step.eventInfo as InputData).inputValue = selectedValue;
+		}
+	}
+
 	onSelectClick(step: Step): void {
-		switch (step.initiator.event) {
+		switch (step.eventName) {
 			case 'ScenarioComplete':
 				this.getConfirmation().subscribe(value => {
 					if (value) {
