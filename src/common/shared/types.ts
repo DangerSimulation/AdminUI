@@ -37,7 +37,7 @@ export interface Initiator {
 }
 
 export interface SimulationMessage<T> {
-	eventType: 'InitiatorEvent' | 'SystemUpdate' | 'ScenarioSelection',
+	eventType: 'ScenarioEvent' | 'SystemUpdate' | 'ScenarioSelection',
 	data: T
 }
 
