@@ -62,36 +62,105 @@ defines all scenarios and each step in each scenario.
 ### General json structure
 
 ```typescript
-interface ScenarioList {
+export interface ScenarioList {
 	version: number,
 	scenarios: Scenario[]
 }
 
-interface Scenario {
+export interface Scenario {
 	id: number,
 	name: string,
 	description: string,
 	steps: Step[]
 }
 
-interface Step {
+export interface Step {
 	id: string,
 	description: string,
 	unique: boolean,
-	initiator: Initiator | null,
-	next: number[]
-}
-
-interface Initiator {
-	description: string,
-	event: string
+	alwaysAvailable: boolean,
+	type: 'initiator' | 'select' | 'input' | 'info'
+	eventName: string,
+	eventInfo: Initiator | SelectData | InputData | null,
+	next: string[]
 }
 ```
 
 The top level object is *ScenarioList*, it holds all scenarios. Each scenario has a name, description, id and an array
-of steps. Each step has an id, a description, an indicator for uniqueness, an optional initiator and an array of
-following steps. The initiator is either an event forwarded to the simulation or null. The unique property indicates
-whether an event should only be used once.
+of steps. Each step has the following values:
+
+- id
+	- An unique id
+- description
+	- A description of the step
+- unique
+	- Whether this step should only be selectable once
+- alwaysAvailable
+	- Whether this step should be selectable at any time
+- type
+	- The type of this step. Has to be *initiator*, *select*, *input* or *info*
+- eventName
+	- The name of the event possibly emitted
+- eventInfo
+	- Additional data for the event. *type* indicates which type this has. See [event info](#event-info)
+- next
+	- A list of id's of following steps. This is ignored if *alwaysAvailable* is true
+
+This list of steps defines how an event is displayed in the scenario control tab.
+
+### Event Info
+
+- Initiator:
+
+```typescript
+export interface Initiator {
+	description: string,
+}
+```
+
+An *initiator* only has a description.
+
+- SelectData
+
+```typescript
+export interface SelectData {
+	selectionData: string,
+	options: SelectOption[]
+}
+
+export interface SelectOption {
+	key: string,
+	description: string,
+}
+```
+
+*SelectData* creates a drop down menu with predefined options. *selectData* gets populated once the user selects
+something. This property doesn't have to get a value.
+*options* is a list of *SelectOptions*. Each SelectOption defines one item in the dropdown menu. *key* should be unique
+and is used to determine what the user selected. *description* is what the user sees in the dropdown menu. The key of
+the selected item is sent to Simulation as additional data.
+
+- InputData
+
+```typescript
+export interface InputData {
+	inputValue: string,
+	validator: string,
+	validatorHint: string,
+	isValid: boolean
+}
+```
+
+*InputData* creates an input field with validation. Properties are:
+
+- inputValue
+	- The entered value. Doesn't have to be filled
+- validator
+	- A Regex to ensure the input is correct
+- validatorHint
+	- A human-readable version of the regex
+- isValid
+	- Whether the entered value matched the validator. Populated once a value is entered
 
 ### Example JSON
 
