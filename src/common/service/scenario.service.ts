@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {
 	InputData,
 	Scenario,
-	ScenarioEventWithData,
+	ScenarioEventMessage,
 	SelectData,
 	SimulationMessage,
 	Step,
@@ -100,19 +100,19 @@ export class ScenarioService {
 				message = {
 					eventType: 'ScenarioEvent',
 					data: {
-						event: step.eventName,
+						eventName: step.eventName,
 						additionalData: (step.eventInfo as SelectData).selectionData
 					}
-				} as SimulationMessage<ScenarioEventWithData<string>>;
+				} as SimulationMessage<ScenarioEventMessage<string>>;
 				break;
 			case 'input':
 				message = {
 					eventType: 'ScenarioEvent',
 					data: {
-						event: step.eventName,
+						eventName: step.eventName,
 						additionalData: (step.eventInfo as InputData).inputValue
 					}
-				} as SimulationMessage<ScenarioEventWithData<string>>;
+				} as SimulationMessage<ScenarioEventMessage<string>>;
 		}
 
 		this.simulationEventsService.sendSimulationEvent(message, event);
