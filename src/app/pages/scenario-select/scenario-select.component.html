@@ -1,27 +1,27 @@
 <nb-card>
-    <nb-card-header i18n>
-        Select the scenario you'd like to use
-    </nb-card-header>
-    <nb-card-body>
+	<nb-card-header i18n>
+		Select the scenario you'd like to use
+	</nb-card-header>
+	<nb-card-body>
 
-        <div *ngIf="ScenarioListService.scenarios | async as scenarios" class="text-center">
-            <nb-accordion *ngFor="let scenario of scenarios.scenarios">
-                <nb-accordion-item>
-                    <nb-accordion-item-header>{{scenario.name}}</nb-accordion-item-header>
-                    <nb-accordion-item-body>
-                        <div>
-                            {{scenario.description}}
-                        </div>
-                        <div class="mt-3" i18n>
-                            This scenario has {{scenario.steps.length}} steps
-                        </div>
-                        <button (click)="onScenarioSelected(scenario)" class="mt-3" i18n nbButton>Use this scenario
-                        </button>
-                    </nb-accordion-item-body>
-                </nb-accordion-item>
-            </nb-accordion>
-        </div>
+		<div *ngIf="ScenarioListService.scenarios | async as scenarios" class="text-center">
+			<nb-accordion *ngFor="let scenario of scenarios.scenarios">
+				<nb-accordion-item>
+					<nb-accordion-item-header>{{scenario.name}}</nb-accordion-item-header>
+					<nb-accordion-item-body>
+						<div>
+							{{scenario.description}}
+						</div>
+						<div class="mt-3" i18n>
+							This scenario has {{scenario.steps.length}} steps
+						</div>
+						<button (click)="onScenarioSelected(scenario)" class="mt-3" i18n nbButton>Use this scenario
+						</button>
+					</nb-accordion-item-body>
+				</nb-accordion-item>
+			</nb-accordion>
+		</div>
 
 
-    </nb-card-body>
+	</nb-card-body>
 </nb-card>

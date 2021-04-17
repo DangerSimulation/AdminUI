@@ -3,9 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    production: false,
-    broadcastPort: 12548,
-    communicationType: 'WebRTC'
+	production: false,
+	broadcastPort: 12548,
+	communicationType: 'WebRTC'
 };
 
 /*
@@ -16,3 +16,4 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+

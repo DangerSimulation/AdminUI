@@ -1,5 +1,13 @@
 import {Injectable} from '@angular/core';
-import {Scenario, SimulationMessage, Step, SystemUpdateMessage} from '../shared/types';
+import {
+	InputData,
+	Scenario,
+	ScenarioEventMessage,
+	SelectData,
+	SimulationMessage,
+	Step,
+	SystemUpdateMessage
+} from '../shared/types';
 import {SimulationEventsService} from './simulation-events.service';
 import {Router} from '@angular/router';
 
@@ -12,6 +20,7 @@ export class ScenarioService {
 	public currentStep: Step;
 	public uniquePreviousSelectedSteps: string[] = [];
 	public isDone = false;
+	public alwaysAvailableStepList: string[];
 
 	constructor(private simulationEventsService: SimulationEventsService, private router: Router) {
 	}
@@ -23,10 +32,18 @@ export class ScenarioService {
 	}
 
 	public setScenarioInformation(scenario: Scenario): void {
+		this._scenario = scenario;
+		this.alwaysAvailableStepList = [];
 		this.uniquePreviousSelectedSteps = [];
 		this.isDone = false;
-		this._scenario = scenario;
+
+		scenario.steps.forEach(step => {
+			if (step.alwaysAvailable) {
+				this.alwaysAvailableStepList.push(step.id);
+			}
+		});
 		this.currentStep = scenario.steps[0];
+
 		this.nextStepList = scenario.steps[0].next;
 	};
 
@@ -35,17 +52,20 @@ export class ScenarioService {
 			this.uniquePreviousSelectedSteps.push(step.id);
 		}
 
-		this.currentStep = step;
-		this.nextStepList = step.next;
-		if (step.initiator) {
+		if (!step.alwaysAvailable) {
+			this.currentStep = step;
+			this.nextStepList = step.next;
+		}
+
+		if (step.type !== 'info') {
 			this.sendEvent(step);
 		}
 	}
 
-	private sendEvent(step: Step) {
-		let message: SimulationMessage<any>;
+	private handleInitiatorEvents(step: Step): SimulationMessage<unknown> {
+		let message: SimulationMessage<unknown>;
 
-		switch (step.initiator.event) {
+		switch (step.eventName) {
 			case 'ScenarioComplete':
 				message = {
 					eventType: 'SystemUpdate',
@@ -58,13 +78,44 @@ export class ScenarioService {
 				break;
 			default:
 				message = {
-					eventType: 'InitiatorEvent',
-					data: step.initiator.event
+					eventType: 'ScenarioEvent',
+					data: step.eventName
 				} as SimulationMessage<string>;
 				break;
+
 		}
 
-		this.simulationEventsService.sendSimulationEvent(message, step.initiator.event);
+		return message;
+	}
+
+	private sendEvent(step: Step) {
+		let message: SimulationMessage<any>;
+		let event = step.eventName;
+
+		switch (step.type) {
+			case 'initiator':
+				message = this.handleInitiatorEvents(step);
+				break;
+			case 'select':
+				message = {
+					eventType: 'ScenarioEvent',
+					data: {
+						eventName: step.eventName,
+						additionalData: (step.eventInfo as SelectData).selectionData
+					}
+				} as SimulationMessage<ScenarioEventMessage<string>>;
+				break;
+			case 'input':
+				message = {
+					eventType: 'ScenarioEvent',
+					data: {
+						eventName: step.eventName,
+						additionalData: (step.eventInfo as InputData).inputValue
+					}
+				} as SimulationMessage<ScenarioEventMessage<string>>;
+		}
+
+		this.simulationEventsService.sendSimulationEvent(message, event);
 	}
 
 }

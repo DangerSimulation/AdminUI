@@ -62,36 +62,105 @@ defines all scenarios and each step in each scenario.
 ### General json structure
 
 ```typescript
-interface ScenarioList {
+export interface ScenarioList {
 	version: number,
 	scenarios: Scenario[]
 }
 
-interface Scenario {
+export interface Scenario {
 	id: number,
 	name: string,
 	description: string,
 	steps: Step[]
 }
 
-interface Step {
+export interface Step {
 	id: string,
 	description: string,
 	unique: boolean,
-	initiator: Initiator | null,
-	next: number[]
-}
-
-interface Initiator {
-	description: string,
-	event: string
+	alwaysAvailable: boolean,
+	type: 'initiator' | 'select' | 'input' | 'info'
+	eventName: string,
+	eventInfo: Initiator | SelectData | InputData | null,
+	next: string[]
 }
 ```
 
 The top level object is *ScenarioList*, it holds all scenarios. Each scenario has a name, description, id and an array
-of steps. Each step has an id, a description, an indicator for uniqueness, an optional initiator and an array of
-following steps. The initiator is either an event forwarded to the simulation or null. The unique property indicates
-whether an event should only be used once.
+of steps. Each step has the following values:
+
+- id
+	- An unique id
+- description
+	- A description of the step
+- unique
+	- Whether this step should only be selectable once
+- alwaysAvailable
+	- Whether this step should be selectable at any time
+- type
+	- The type of this step. Has to be *initiator*, *select*, *input* or *info*
+- eventName
+	- The name of the event possibly emitted
+- eventInfo
+	- Additional data for the event. *type* indicates which type this has. See [event info](#event-info)
+- next
+	- A list of id's of following steps. This is ignored if *alwaysAvailable* is true
+
+This list of steps defines how an event is displayed in the scenario control tab.
+
+### Event Info
+
+- Initiator:
+
+```typescript
+export interface Initiator {
+	description: string,
+}
+```
+
+An *initiator* only has a description.
+
+- SelectData
+
+```typescript
+export interface SelectData {
+	selectionData: string,
+	options: SelectOption[]
+}
+
+export interface SelectOption {
+	key: string,
+	description: string,
+}
+```
+
+*SelectData* creates a drop down menu with predefined options. *selectData* gets populated once the user selects
+something. This property doesn't have to get a value.
+*options* is a list of *SelectOptions*. Each SelectOption defines one item in the dropdown menu. *key* should be unique
+and is used to determine what the user selected. *description* is what the user sees in the dropdown menu. The key of
+the selected item is sent to Simulation as additional data.
+
+- InputData
+
+```typescript
+export interface InputData {
+	inputValue: string,
+	validator: string,
+	validatorHint: string,
+	isValid: boolean
+}
+```
+
+*InputData* creates an input field with validation. Properties are:
+
+- inputValue
+	- The entered value. Doesn't have to be filled
+- validator
+	- A Regex to ensure the input is correct
+- validatorHint
+	- A human-readable version of the regex
+- isValid
+	- Whether the entered value matched the validator. Populated once a value is entered
 
 ### Example JSON
 
@@ -129,16 +198,24 @@ And this scenario has 4 steps.
 				{
 					"id": "Arrival",
 					"description": "You arrived at the crash site",
-					"initiator": null,
+					"unique": true,
+					"alwaysAvailable": false,
+					"type": "info",
+					"eventName": "",
+					"eventInfo": null,
 					"next": [
 						"AskResponders",
-						"Investigate"
+						"InjuredReport"
 					]
 				},
 				{
 					"id": "AskResponders",
 					"description": "Go and ask the first responders about the situation",
-					"initiator": {
+					"unique": true,
+					"alwaysAvailable": false,
+					"type": "initiator",
+					"eventName": "AskResponders",
+					"eventInfo": {
 						"description": "Initiate a conversation with first responders",
 						"event": "InformAboutSituation"
 					},
@@ -146,9 +223,45 @@ And this scenario has 4 steps.
 					]
 				},
 				{
-					"id": "Investigate",
-					"description": "Take a closer look at the crash site",
-					"initiator": null,
+					"id": "InjuredReport",
+					"description": "A first responder informs about the amount of injured persons",
+					"unique": true,
+					"alwaysAvailable": false,
+					"type": "input",
+					"eventName": "InjuredReport",
+					"eventInfo": {
+						"inputValue": "",
+						"validator": "^[1-9]{1,2}$",
+						"validatorHint": "A number between 1 and 99",
+						"isValid": false
+					},
+					"next": [
+					]
+				},
+				{
+					"id": "WeatherChange",
+					"description": "Weather is changing to the selected option",
+					"unique": false,
+					"alwaysAvailable": true,
+					"type": "select",
+					"eventName": "WeatherChange",
+					"eventInfo": {
+						"selectionData": "",
+						"options": [
+							{
+								"key": "Rain",
+								"description": "It's starting to rain"
+							},
+							{
+								"key": "BlueSky",
+								"description": "Clouds are clearing up"
+							},
+							{
+								"key": "Cloudy",
+								"description": "Big clouds appear"
+							}
+						]
+					},
 					"next": [
 					]
 				}
@@ -158,15 +271,17 @@ And this scenario has 4 steps.
 }
 ```
 
-We have added 3 steps to our scenario. The first step with the id "Arrival" is the initial step. In it's *next* property
+We have added 4 steps to our scenario. The first step with the id "Arrival" is the initial step. In it's *next* property
 we have two possible following steps. Meaning after arriving we have either the option to talk to the first responders
-or investigate the site. One step has also an *initiator*. In this case it would initiate the conversation with first
-responders. If you'd select that step, an event with the name *InformationAboutSituation* would be sent to the
-simulation.
+or we can have a first responder tell the trainee how many are injured. We also have a step to switch the weather with.
+This step is always available, thus its *alwaysAvailable* flag is set to true. We display an initiator, input, info and
+select step in this example. The info step is only an informational step and is not impacting the Simulation. All others
+are sending event to Simulation once they are selected. input and select also have additional data with their event.
 
 The other thing you'd need to do to add a scenario is to add all events to the known event list in the
-[*simulation-events.service.ts*](src/common/service/simulation-events.service.ts). That includes all initiator events,
-and the name of our scenario with a postfix of "Selected". So we need to add "InformAboutSituation" and "
+[*simulation-events.service.ts*](src/common/service/simulation-events.service.ts). That includes all initiator, input
+and select steps, and the name of our scenario with a postfix of "Selected". So we need to add "InformAboutSituation", "
+WeatherChange", "InjuredReport" and "
 CarCrashSelected". For our example that means adding:
 
 ```typescript
@@ -175,7 +290,9 @@ export class SimulationEventsService {
 	private knownEvents: string[] = [
 		'...',
 		'CarCrashSelected',
-		'InformAboutSituation'
+		'InformAboutSituation',
+		'WeatherChange',
+		'InjuredReport'
 	];
 
 }

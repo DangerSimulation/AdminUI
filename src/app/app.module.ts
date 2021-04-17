@@ -18,10 +18,11 @@ import {ScenarioControlModule} from './pages/scenario-control/scenario-control.m
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {DialogModule} from '../common/dialog/dialog.module';
 import {ResetScenarioGuard} from '../common/guards/reset-scenario.guard';
-import {HttpClientModule} from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
-import {LOCALE_ID, NgModule} from "@angular/core";
-import {BrowserModule} from "@angular/platform-browser";
+import {HttpClientModule} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
+import {LOCALE_ID, NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {PipesModule} from '../common/pipes/pipes.module';
 
 @NgModule({
 	declarations: [
@@ -46,7 +47,8 @@ import {BrowserModule} from "@angular/platform-browser";
 		NgbModule,
 		DialogModule,
 		NbIconModule,
-		NbButtonModule
+		NbButtonModule,
+		PipesModule
 	],
 	providers: [
 		{provide: LOCALE_ID, useValue: 'de-DE'},

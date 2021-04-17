@@ -13,10 +13,10 @@ export class SimulationEventsService {
 		'StrandSelected',
 		'ScenarioCancel',
 		'ScenarioComplete',
-		'Rain',
-		'BlueSky',
-		'Cloudy',
-		'ShowDrowningMan'
+		'WeatherChange',
+		'TimeChange',
+		'ShowDrowningMan',
+		'TemperatureChange'
 	];
 
 	constructor(private messageService: MessageService, private toasterService: NbToastrService) {

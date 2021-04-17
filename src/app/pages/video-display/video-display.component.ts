@@ -1,6 +1,6 @@
 import {WebRTCConnectionService} from '../../../common/service/web-rtc-connection.service';
-import {Component, ElementRef, OnDestroy, ViewChild} from "@angular/core";
-import {Subscription} from "rxjs";
+import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {Subscription} from 'rxjs';
 
 @Component({
 	selector: 'app-video-display',

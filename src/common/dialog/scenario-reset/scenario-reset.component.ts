@@ -1,5 +1,5 @@
 import {NbDialogRef} from '@nebular/theme';
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit} from '@angular/core';
 
 @Component({
 	selector: 'app-scenario-reset',
