@@ -55,8 +55,8 @@ export interface Initiator {
 	description: string,
 }
 
-export interface ScenarioEventWithData<T> {
-	event: string,
+export interface ScenarioEventMessage<T> {
+	eventName: string,
 	additionalData: T
 }
 
