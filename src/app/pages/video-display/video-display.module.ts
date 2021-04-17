@@ -1,6 +1,6 @@
 import {VideoDisplayComponent} from './video-display.component';
-import {CommonModule} from "@angular/common";
-import {NgModule} from "@angular/core";
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
 
 
 @NgModule({
@@ -14,3 +14,4 @@ import {NgModule} from "@angular/core";
 })
 export class VideoDisplayModule {
 }
+
