@@ -15,7 +15,8 @@ export class SimulationEventsService {
 		'ScenarioComplete',
 		'WeatherChange',
 		'TimeChange',
-		'ShowDrowningMan'
+		'ShowDrowningMan',
+		'TemperatureChange'
 	];
 
 	constructor(private messageService: MessageService, private toasterService: NbToastrService) {
