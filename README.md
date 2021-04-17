@@ -198,16 +198,24 @@ And this scenario has 4 steps.
 				{
 					"id": "Arrival",
 					"description": "You arrived at the crash site",
-					"initiator": null,
+					"unique": true,
+					"alwaysAvailable": false,
+					"type": "info",
+					"eventName": "",
+					"eventInfo": null,
 					"next": [
 						"AskResponders",
-						"Investigate"
+						"InjuredReport"
 					]
 				},
 				{
 					"id": "AskResponders",
 					"description": "Go and ask the first responders about the situation",
-					"initiator": {
+					"unique": true,
+					"alwaysAvailable": false,
+					"type": "initiator",
+					"eventName": "AskResponders",
+					"eventInfo": {
 						"description": "Initiate a conversation with first responders",
 						"event": "InformAboutSituation"
 					},
@@ -215,9 +223,45 @@ And this scenario has 4 steps.
 					]
 				},
 				{
-					"id": "Investigate",
-					"description": "Take a closer look at the crash site",
-					"initiator": null,
+					"id": "InjuredReport",
+					"description": "A first responder informs about the amount of injured persons",
+					"unique": true,
+					"alwaysAvailable": false,
+					"type": "input",
+					"eventName": "InjuredReport",
+					"eventInfo": {
+						"inputValue": "",
+						"validator": "^[1-9]{1,2}$",
+						"validatorHint": "A number between 1 and 99",
+						"isValid": false
+					},
+					"next": [
+					]
+				},
+				{
+					"id": "WeatherChange",
+					"description": "Weather is changing to the selected option",
+					"unique": false,
+					"alwaysAvailable": true,
+					"type": "select",
+					"eventName": "WeatherChange",
+					"eventInfo": {
+						"selectionData": "",
+						"options": [
+							{
+								"key": "Rain",
+								"description": "It's starting to rain"
+							},
+							{
+								"key": "BlueSky",
+								"description": "Clouds are clearing up"
+							},
+							{
+								"key": "Cloudy",
+								"description": "Big clouds appear"
+							}
+						]
+					},
 					"next": [
 					]
 				}
@@ -227,15 +271,17 @@ And this scenario has 4 steps.
 }
 ```
 
-We have added 3 steps to our scenario. The first step with the id "Arrival" is the initial step. In it's *next* property
+We have added 4 steps to our scenario. The first step with the id "Arrival" is the initial step. In it's *next* property
 we have two possible following steps. Meaning after arriving we have either the option to talk to the first responders
-or investigate the site. One step has also an *initiator*. In this case it would initiate the conversation with first
-responders. If you'd select that step, an event with the name *InformationAboutSituation* would be sent to the
-simulation.
+or we can have a first responder tell the trainee how many are injured. We also have a step to switch the weather with.
+This step is always available, thus its *alwaysAvailable* flag is set to true. We display an initiator, input, info and
+select step in this example. The info step is only an informational step and is not impacting the Simulation. All others
+are sending event to Simulation once they are selected. input and select also have additional data with their event.
 
 The other thing you'd need to do to add a scenario is to add all events to the known event list in the
-[*simulation-events.service.ts*](src/common/service/simulation-events.service.ts). That includes all initiator events,
-and the name of our scenario with a postfix of "Selected". So we need to add "InformAboutSituation" and "
+[*simulation-events.service.ts*](src/common/service/simulation-events.service.ts). That includes all initiator, input
+and select steps, and the name of our scenario with a postfix of "Selected". So we need to add "InformAboutSituation", "
+WeatherChange", "InjuredReport" and "
 CarCrashSelected". For our example that means adding:
 
 ```typescript
@@ -244,7 +290,9 @@ export class SimulationEventsService {
 	private knownEvents: string[] = [
 		'...',
 		'CarCrashSelected',
-		'InformAboutSituation'
+		'InformAboutSituation',
+		'WeatherChange',
+		'InjuredReport'
 	];
 
 }
