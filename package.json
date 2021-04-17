@@ -1,6 +1,6 @@
 {
 	"name": "admin-ui",
-	"version": "1.0.2",
+	"version": "1.1.0",
 	"description": "Oversee and influence the simulation",
 	"homepage": "https://github.com/DangerSimulation/AdminUI",
 	"main": "main.js",
