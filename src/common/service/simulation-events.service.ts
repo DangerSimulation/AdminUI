@@ -1,35 +1,33 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {MessageService} from './message.service';
 import {NbToastrService} from '@nebular/theme';
 import {SimulationMessage} from '../shared/types';
+import {WebRTCConnectionService} from './web-rtc-connection.service';
+import {Subscription} from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
 })
-export class SimulationEventsService {
+export class SimulationEventsService implements OnDestroy {
 
-	private knownEvents: string[] = [
-		'DrowningMan',
-		'StrandSelected',
-		'ScenarioCancel',
-		'ScenarioComplete',
-		'WeatherChange',
-		'TimeChange',
-		'ShowDrowningMan',
-		'TemperatureChange'
-	];
+	private systemUpdateMessageSubscription: Subscription;
 
-	constructor(private messageService: MessageService, private toasterService: NbToastrService) {
+	constructor(private webRTCConnectionService: WebRTCConnectionService, private messageService: MessageService, private toasterService: NbToastrService) {
+		this.systemUpdateMessageSubscription = webRTCConnectionService.systemUpdateMessageSubject.subscribe(value => {
+			if (value.action === 'UnknownEvent') {
+				const errMessage = `Unknown event ${value.additionalData}. The simulation doesnt have it implemented or the name is wrong.`;
+				this.toasterService.danger(errMessage, 'Event error');
+				console.error(errMessage);
+			}
+		});
 	}
 
 	public sendSimulationEvent(message: SimulationMessage<unknown>, event: string): void {
-		if (this.knownEvents.includes(event)) {
-			this.messageService.sendMessage(message);
-		} else {
-			const errMessage = `Unknown event ${event}. Check the simulation-scenario.json or add ${event} to the known events.`;
-			this.toasterService.danger(errMessage, 'Event error');
-			console.error(`Unknown event ${event}. Check the simulation-scenario.json or add ${event} to the known events.`);
-		}
+		this.messageService.sendMessage(message);
+	}
+
+	ngOnDestroy(): void {
+		this.systemUpdateMessageSubscription.unsubscribe();
 	}
 
 }

@@ -66,6 +66,6 @@ export interface SimulationMessage<T> {
 }
 
 export interface SystemUpdateMessage<T> {
-	action: 'ScenarioCancel' | 'Ping',
+	action: 'ScenarioCancel' | 'Ping' | 'UnknownEvent',
 	additionalData: T
 }
