@@ -278,25 +278,7 @@ This step is always available, thus its *alwaysAvailable* flag is set to true. W
 select step in this example. The info step is only an informational step and is not impacting the Simulation. All others
 are sending event to Simulation once they are selected. input and select also have additional data with their event.
 
-The other thing you'd need to do to add a scenario is to add all events to the known event list in the
-[*simulation-events.service.ts*](src/common/service/simulation-events.service.ts). That includes all initiator, input
-and select steps, and the name of our scenario with a postfix of "Selected". So we need to add "InformAboutSituation", "
-WeatherChange", "InjuredReport" and "
-CarCrashSelected". For our example that means adding:
-
-```typescript
-export class SimulationEventsService {
-
-	private knownEvents: string[] = [
-		'...',
-		'CarCrashSelected',
-		'InformAboutSituation',
-		'WeatherChange',
-		'InjuredReport'
-	];
-
-}
-```
+You get an error message with a toastr, if an event isn't implemented in the simulation.
 
 This is the part done for the AdminUI. New events have to be implemented in the simulation as well. Refer
 to [this](https://github.com/DangerSimulation/Simulation).
