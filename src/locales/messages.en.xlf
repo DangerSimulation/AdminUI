@@ -343,27 +343,27 @@
           <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="2b3ec7534e37946969dbb7102472555b5a9f0da2" datatype="html">
+      <trans-unit id="549d31b44b9115ff9b58f7185be339c96ff69129" datatype="html">
         <source>Use this scenario
-                        </source>
+						</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/scenario-select/scenario-select.component.html</context>
           <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="56cdf1aa4e1cfb699a79939b9126222a098b8f0d" datatype="html">
+      <trans-unit id="69775c56bda132075ae9f4d1b66ddf9819b21eba" datatype="html">
         <source>
-        Select the scenario you&apos;d like to use
-    </source>
+		Select the scenario you&apos;d like to use
+	</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/scenario-select/scenario-select.component.ts</context>
           <context context-type="linenumber">28,39</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="bc8cfb58f27f32b7de08c4f00e3c5bf990243cc7" datatype="html">
+      <trans-unit id="e00613dfddc84d31d5a32c60e0f98e4dde58775e" datatype="html">
         <source>
-                            This scenario has <x id="INTERPOLATION" equiv-text="{{scenario.steps.length}}"/> steps
-                        </source>
+							This scenario has <x id="INTERPOLATION" equiv-text="{{scenario.steps.length}}"/> steps
+						</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/scenario-select/scenario-select.component.ts</context>
           <context context-type="linenumber">39</context>
@@ -383,11 +383,11 @@
           <context context-type="linenumber">14</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="5f8e0efb929be53135262df1b1b657cf3caa43fa" datatype="html">
+      <trans-unit id="ec8dc2602d03257e003daa946fa3dbeced75ea57" datatype="html">
         <source>
-        Do you really want to return to the scenario selection ? <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
-        This resets the current scenario
-    </source>
+		Do you really want to return to the scenario selection ? <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
+		This resets the current scenario
+	</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/common/dialog/scenario-reset/scenario-reset.component.ts</context>
           <context context-type="linenumber">25</context>

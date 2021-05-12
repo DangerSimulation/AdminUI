@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
-import {Side, SignalingMessage, SimulationMessage} from '../shared/types';
+import {ScenarioEventMessage, Side, SignalingMessage, SimulationMessage, SystemUpdateMessage} from '../shared/types';
 
 @Injectable({
 	providedIn: 'root'
@@ -9,12 +9,18 @@ export class WebRTCConnectionService {
 
 	public signalingMessage: Subject<SignalingMessage>;
 	public trackAddedSubject: Subject<RTCTrackEvent>;
+	public scenarioEventMessageSubject: Subject<ScenarioEventMessage<unknown>>;
+	public systemUpdateMessageSubject: Subject<SystemUpdateMessage<unknown>>;
+	public scenarioSelectionMessageSubject: Subject<string>;
 	private localConnection: RTCPeerConnection;
 	private dataChannel: RTCDataChannel | undefined;
 
 	constructor() {
 		this.signalingMessage = new Subject<SignalingMessage>();
 		this.trackAddedSubject = new Subject<RTCTrackEvent>();
+		this.scenarioSelectionMessageSubject = new Subject<string>();
+		this.scenarioEventMessageSubject = new Subject<ScenarioEventMessage<unknown>>();
+		this.systemUpdateMessageSubject = new Subject<SystemUpdateMessage<unknown>>();
 	}
 
 	public resetWebRTCConnection(): void {
@@ -30,7 +36,7 @@ export class WebRTCConnectionService {
 		this.dataChannel = this.localConnection.createDataChannel('data');
 		this.dataChannel.onopen = ev => console.log('Data channel opened');
 		this.dataChannel.onclose = ev => console.log('Data channel closed');
-		this.dataChannel.onmessage = (ev: MessageEvent) => console.log(ev.data);
+		this.dataChannel.onmessage = this.handleDataChannelMessage.bind(this);
 
 		this.localConnection.onicecandidate = (iceEvent: RTCPeerConnectionIceEvent) => {
 			console.log('New ice candidate');
@@ -113,5 +119,24 @@ export class WebRTCConnectionService {
 			console.warn('Data channel is not connected. Check connection status');
 		}
 	}
-}
 
+	private handleDataChannelMessage(event: MessageEvent): void {
+		console.log(`Received message from simulation: ${event.data}`);
+		const message: SimulationMessage<any> = JSON.parse(event.data);
+		console.log(this);
+		switch (message.eventType) {
+			case 'ScenarioEvent':
+				this.scenarioEventMessageSubject.next(message.data);
+				break;
+			case 'SystemUpdate':
+				this.systemUpdateMessageSubject.next(message.data);
+				break;
+			case 'ScenarioSelection':
+				this.scenarioSelectionMessageSubject.next(message.data);
+				break;
+			default:
+				console.warn(`Unknown event ${message.eventType} received from simulation`);
+				break;
+		}
+	}
+}
