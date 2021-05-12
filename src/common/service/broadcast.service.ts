@@ -18,7 +18,7 @@ export class BroadcastService implements OnDestroy {
 		this.startSocket();
 
 		this.electronService.ipcRenderer.on('reload-triggered', () => {
-			//this.closeSocket();
+			this.closeSocket();
 		});
 	}
 

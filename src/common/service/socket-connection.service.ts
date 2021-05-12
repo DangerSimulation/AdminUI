@@ -74,7 +74,7 @@ export class SocketConnectionService implements OnDestroy {
 		});
 
 		this.electronService.ipcRenderer.on('reload-triggered', () => {
-			//this.closeSocket();
+			this.closeSocket();
 		});
 
 	}
