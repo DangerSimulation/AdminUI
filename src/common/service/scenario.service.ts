@@ -79,8 +79,11 @@ export class ScenarioService {
 			default:
 				message = {
 					eventType: 'ScenarioEvent',
-					data: step.eventName
-				} as SimulationMessage<string>;
+					data: {
+						eventName: step.eventName,
+						additionalData: null
+					}
+				} as SimulationMessage<ScenarioEventMessage<unknown>>;
 				break;
 
 		}
